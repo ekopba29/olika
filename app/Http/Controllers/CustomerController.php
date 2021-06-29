@@ -32,9 +32,10 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+        $valid = $this->validateCustomer($request, "store");
         DB::beginTransaction();
         try {
-            $user = User::create($this->validateCustomer($request, "store"));
+            $user = User::create($valid);
             if ($request->level == "member" || $request->level == "crew" || $request->level == "owner") {
                 FreeGrooming::create([
                     'owner_id' => $user->id,

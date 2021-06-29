@@ -86,6 +86,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID</th>
                                 <th>Owner</th>
                                 <th>Free Grooming</th>
                                 <th>Non Free Grooming</th>
@@ -99,6 +100,7 @@
                                 @foreach ($groupOwner as $number => $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>{{ $data->owner->unique_number }}</td>
                                         <td>{{ ucfirst($data[0]['owner']) }}</td>
                                         <td>
                                             @php
@@ -150,6 +152,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID</th>
                                 <th>Owner</th>
                                 <th>Cat Name</th>
                                 <th>Groomer</th>
@@ -162,6 +165,7 @@
                                 @foreach ($datas as $number => $data)
                                     <tr>
                                         <td>{{ ++$number }}</td>
+                                        <td>{{ $data->owner->unique_number }}</td>
                                         <td>{{ ucfirst($data->owner->name) }}</td>
                                         <td>{{ ucfirst($data->cat->name) }}</td>
                                         {{-- <td>{{ $user->username }}</td> --}}
