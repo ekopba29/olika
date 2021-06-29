@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FreeGrooming;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CrewController extends Controller
 {
@@ -30,14 +31,23 @@ class CrewController extends Controller
 
     public function store(Request $request)
     {
-        $crew = $this->validateCrew($request, "store");
-        User::create(
-            array_merge(
-                ["level" => "crew"],
-                $crew
-            )
-        );
-
+        DB::beginTransaction();
+        try {
+            $crew = $this->validateCrew($request, "store");
+            User::create(
+                array_merge(
+                    ["level" => "crew"],
+                    $crew
+                )
+            );
+            FreeGrooming::create([
+                'owner_id' => $crew->id,
+                'total' => 0
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            back()->with('error', 'Add Customer Failed!');
+        }
         return back()->with('status_success', 'Crew Added!');
     }
 

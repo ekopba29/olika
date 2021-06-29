@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FreeGrooming;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -30,7 +31,21 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        User::create($this->validateCustomer($request,"store"));
+        DB::beginTransaction();
+        try {
+            $user = User::create($this->validateCustomer($request, "store"));
+            if ($request->level == "member" || $request->level == "crew" || $request->level == "owner") {
+                FreeGrooming::create([
+                    'owner_id' => $user->id,
+                    'total' => 0
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            back()->with('error', 'Add Customer Failed!');
+        }
+
 
         return back()->with('status_success', 'Customer Added!');
     }
@@ -52,14 +67,14 @@ class CustomerController extends Controller
 
     public function edit(User $customer)
     {
-        return view("formCustomer",[
+        return view("formCustomer", [
             "user" => $customer
         ]);
     }
 
     public function update(Request $request, User $customer)
     {
-        $customer->update($this->validateCustomer($request,"update"));
+        $customer->update($this->validateCustomer($request, "update"));
 
         return back()->with('status_success', 'Customer Updated!');
     }
@@ -79,22 +94,23 @@ class CustomerController extends Controller
         return redirect(route('customer.index'));
     }
 
-    private function validateCustomer($request , $action = "store") {
+    private function validateCustomer($request, $action = "store")
+    {
 
         $toValidate = [
             "phone" => "required|numeric",
             "name" => "required",
             "level" => "in:member,notmember"
         ];
-   
+
         if ($action == "store") {
-            $toValidate = array_merge($toValidate,["email" => "email|nullable|unique:users,email"]);
+            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
         }
         if ($action == "update") {
-            $toValidate = array_merge($toValidate,["email" => "email|nullable|unique:users,email,".$request->customer->id]);
+            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email," . $request->customer->id]);
         }
-        
-        
+
+
         return $request->validate($toValidate);
     }
 }
