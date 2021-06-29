@@ -94,6 +94,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @unless(!$datas)
                             @isset($groupOwner)
                                 @php
                                     $no = 1;
@@ -138,6 +139,8 @@
                             <td>{{ $payment_cash + $payment_credit + $payment_debit }}</td>
                             <td>{{ $payment_cash + $payment_credit + $payment_debit + $payment_free }}</td>
                         </tfoot>
+                    @endunless
+
                     </table>
                     <p>
                         @unless($datas)
@@ -227,8 +230,8 @@
                 "autoWidth": false,
                 "buttons": [{
                     extend: 'excelHtml5',
-                    @php
-                    echo "'Summary Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
+                    title: @php
+                        echo "'Summary Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
                     @endphp,
                 }],
                 // {
@@ -250,8 +253,8 @@
                 "autoWidth": false,
                 "buttons": [{
                     extend: 'excelHtml5',
-                    @php
-                    echo "'Grooming Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
+                    title: @php
+                        echo "'Grooming Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
                     @endphp,
                 }],
                 //  {
