@@ -112,10 +112,14 @@ class CustomerController extends Controller
             $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
         }
         if ($request->level == "member") {
-            $toValidate = array_merge($toValidate, ["unique_number" => "required|unique:users,unique_number"]);
+            if ($action == "store") {
+                $toValidate = array_merge($toValidate, ["unique_number" => "required|unique:users,unique_number"]);
+            }
         }
         if ($action == "update") {
-            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email," . $request->customer->id]);
+            $toValidate = array_merge($toValidate, [
+                ["email" => "email|nullable|unique:users,email," . $request->customer->id],
+            ]);
         }
 
 
