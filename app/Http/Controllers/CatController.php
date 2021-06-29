@@ -30,10 +30,11 @@ class CatController extends Controller
     {
         $request->validate([
             'owner' => 'required',
-            'name' => 'required'
+            'name' => 'required',
+            'birth_date' => 'required'
         ]);
         Cat::create([
-            'owner_id' => $request->owner, 'name' => request('name')
+            'owner_id' => $request->owner, 'name' => request('name') ,'birth_date' => date('Y-m-d',strtotime($request->birth_date))
         ]);
         return redirect(route('grooming.add', ['user' => $request->owner]))->with('status_success', 'Cat Added');
     }

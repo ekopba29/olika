@@ -16,6 +16,7 @@ class CustomerController extends Controller
             "name" => $request->name ?? null,
             "email" => $request->email ?? null,
             "unique_number" => $request->unique_number ?? null,
+            "address" => $request->address ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];
@@ -45,6 +46,7 @@ class CustomerController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            // dd($e);
             return back()->with('status_error', 'Add Customer Failed!');
         }
         
@@ -102,6 +104,7 @@ class CustomerController extends Controller
         $toValidate = [
             "phone" => "required|numeric",
             "name" => "required",
+            "address" => "required",
             "level" => "in:member,notmember",
         ];
         

@@ -18,6 +18,7 @@ class Cat extends Model
         'owner_id',
         'name',
         'birth_date',
+        'birth_date',
     ];
 
     public function owner()

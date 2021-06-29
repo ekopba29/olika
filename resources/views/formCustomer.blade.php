@@ -3,6 +3,7 @@
     @php $action = Request::segment(2) == 'create' ? route('customer.store') : route('customer.update', ['customer' => $user->id]) @endphp
     @php $name = $user->name ?? old('name') @endphp
     @php $email = $user->email ?? old('email') @endphp
+    @php $address = $user->address ?? old('address') @endphp
     @php $phone = $user->phone ?? old('phone') @endphp
     @php $unique_number = $user->unique_number ?? old('unique_number') @endphp
     @php $level = $user->level ?? old('level') @endphp
@@ -53,6 +54,14 @@
                                     <label>Phone</label>
                                     <input type="text" class="form-control" placeholder="" name="phone"
                                         value={{ $phone }}>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control" placeholder="" name="address"
+                                        value={{ $address }}>
                                 </div>
                             </div>
                             <div class="col-lg-3">

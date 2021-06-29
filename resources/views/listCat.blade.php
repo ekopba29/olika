@@ -43,6 +43,7 @@
                             <thead>
                                 <th>Name</th>
                                 <th>Owner</th>
+                                <th>Birth date</th>
                                 <th>Options</th>
                             </thead>
                             <tbody>
@@ -50,6 +51,7 @@
                                     <tr>
                                         <td>{{ $cat->name }}</td>
                                         <td>{{ $cat->owner->name }}</td>
+                                        <td>{{ date('d M Y',strtotime($cat->birth_date)) }}</td>
                                         <td>
                                             <a href={{ route('grooming.addBycat', ['cat' => $cat->id]) }}>
                                                 <button class="btn bg-danger text-white" cat-id={{ $cat->id }}

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'unique_number',
         'phone',
+        'address',
         'level',
         'password',
     ];
@@ -60,6 +61,7 @@ class User extends Authenticatable
         if ($search["name"] != null) $get->orWhere("users.name",'like','%' .$search["name"] . '%');
         if ($search["email"] != null) $get->orWhere("users.email",'like','%'. $search["email"] . '%');
         if ($search["unique_number"] != null) $get->orWhere("users.unique_number",'like','%'. $search["unique_number"] . '%');
+        if ($search["address"] != null) $get->orWhere("users.address",'like','%'. $search["address"] . '%');
         if ($search["phone"] != null) $get->orWhere("users.phone", 'like','%' .$search["phone"] . '%');
         if ($search["level"] != null) {
             $get->orWhere("users.level", $search["level"]);

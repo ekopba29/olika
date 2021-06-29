@@ -29,6 +29,14 @@
                 <div class="col-lg-3">
                     <!-- text input -->
                     <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control" placeholder="" name="address"
+                            value={{ old('address') }}>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- text input -->
+                    <div class="form-group">
                         <label>Email</label>
                         <input type="text" class="form-control" placeholder="" name="email"
                             value={{ old('email') }}>

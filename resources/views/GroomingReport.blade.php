@@ -90,13 +90,14 @@
                                 <th>Owner</th>
                                 <th>Free Grooming</th>
                                 <th>Non Free Grooming</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @isset($groupOwner)
-                            @php
-                                $no = 1;
-                            @endphp
+                                @php
+                                    $no = 1;
+                                @endphp
                                 @foreach ($groupOwner as $number => $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
@@ -124,10 +125,19 @@
                                             @endphp
                                             {{ $payGrooming }}
                                         </td>
+                                        <td>{{ $freeGrooming + $payGrooming }}</td>
                                     </tr>
                                 @endforeach
                             @endunless
                         </tbody>
+                        <tfoot class="bg-navy">
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{ $payment_free }}</td>
+                            <td>{{ $payment_cash + $payment_credit + $payment_debit }}</td>
+                            <td>{{ $payment_cash + $payment_credit + $payment_debit + $payment_free }}</td>
+                        </tfoot>
                     </table>
                     <p>
                         @unless($datas)
@@ -217,15 +227,16 @@
                 "autoWidth": false,
                 "buttons": [{
                     extend: 'excelHtml5',
-                    title: @php
+                    @php
                     echo "'Summary Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
                     @endphp,
-                }], 
+                }],
                 // {
                 //     extend: 'pdfHtml5',
-                //     title: @php
+                @php
                 //     echo "'Summary Report " . date('d M Y', strtotime(Request::get('from'))) . 'To' . date('d M Y', strtotime(Request::get('to'))) . "'";
-                //     @endphp
+                //
+                @endphp
                 // }],
                 "paging": false,
                 "info": false,
@@ -239,15 +250,16 @@
                 "autoWidth": false,
                 "buttons": [{
                     extend: 'excelHtml5',
-                    title: @php
+                    @php
                     echo "'Grooming Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
                     @endphp,
                 }],
                 //  {
                 //     extend: 'pdfHtml5',
-                //     title: @php
+                @php
                 //     echo "'Grooming Report " . date('d M Y', strtotime(Request::get('from'))) . 'To' . date('d M Y', strtotime(Request::get('to'))) . "'";
-                //     @endphp
+                //
+                @endphp
                 // }],
                 "paging": false,
                 "info": false,

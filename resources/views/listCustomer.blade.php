@@ -27,6 +27,7 @@
                                 <th>ID</th>
                                 <th>Level</th>
                                 <th>Name</th>
+                                <th>Address</th>
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th>Total Cats</th>
@@ -41,7 +42,7 @@
                                     <td>{{ $user->unique_number }}</td>
                                     <td>{{ ucfirst($user->level) }}</td>
                                     <td>{{ $user->name }}</td>
-                                    {{-- <td>{{ $user->username }}</td> --}}
+                                    <td>{{ $user->address }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->cats_count ?? '-' }}</td>
