@@ -32,9 +32,9 @@ class CrewController extends Controller
 
     public function store(Request $request)
     {
+        $crew = $this->validateCrew($request, "store");
         DB::beginTransaction();
         try {
-            $crew = $this->validateCrew($request, "store");
             User::create(
                 array_merge(
                     ["level" => "crew"],
@@ -45,11 +45,12 @@ class CrewController extends Controller
                 'owner_id' => $crew->id,
                 'total' => 0
             ]);
+            DB::commit();
+            return back()->with('status_success', 'Crew Added!');
         } catch (\Exception $e) {
             DB::rollback();
-            back()->with('error', 'Add Customer Failed!');
+            return back()->with('error', 'Add Crew Failed!');
         }
-        return back()->with('status_success', 'Crew Added!');
     }
 
     public function profile(User $user)
@@ -86,15 +87,15 @@ class CrewController extends Controller
         //
     }
 
-    public function upgradeToMember(User $user)
-    {
-        $user->update(["level" => "member"]);
-        FreeGrooming::create([
-            "owner_id" => $user->id,
-            "total" => 0
-        ]);
-        return redirect(route('customer.index'));
-    }
+    // public function upgradeToMember(User $user)
+    // {
+    //     $user->update(["level" => "member"]);
+    //     FreeGrooming::create([
+    //         "owner_id" => $user->id,
+    //         "total" => 0
+    //     ]);
+    //     return redirect(route('customer.index'));
+    // }
 
     private function validateCrew($request, $action = "store")
     {

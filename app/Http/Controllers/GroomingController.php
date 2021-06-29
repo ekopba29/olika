@@ -28,7 +28,7 @@ class GroomingController extends Controller
 
     public function storeGrooming(HttpRequest $request)
     {
-// dd($request);
+        // dd($request);
         $OwnerId = FacedesRequest::segment(2);
         $this->validateStoreGrooming($request);
 
@@ -51,14 +51,12 @@ class GroomingController extends Controller
                     :
                     $this->recalculateFreeGrooming($OwnerId, 'increase');
             }
-            DB::commit(); 
+            DB::commit();
+            return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            back()->with('error', 'Register Grooming Failed');
+            return back()->with('error', 'Register Grooming Failed');
         }
-
-
-        return back()->with('status_success', 'Grooming Added');
     }
 
     private function recalculateFreeGrooming($OwnerId, $action = "decrease")
