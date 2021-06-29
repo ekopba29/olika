@@ -30,7 +30,7 @@
     if ($datas != null) {
         $idOwner = [];
         foreach ($datas as $key => $item) {
-            $dt = ['id' => $item->owner->id, 'payment' => $item->payment, 'owner' => $item->owner->name];
+            $dt = ['id' => $item->owner->id, 'payment' => $item->payment, 'owner' => $item->owner->name, 'unique_number' => $item->owner->unique_number];
             array_push($idOwner, $dt);
         }
 
@@ -100,7 +100,7 @@
                                 @foreach ($groupOwner as $number => $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $data->owner->unique_number }}</td>
+                                        <td>{{ $data[0]['unique_number'] }}</td>
                                         <td>{{ ucfirst($data[0]['owner']) }}</td>
                                         <td>
                                             @php
