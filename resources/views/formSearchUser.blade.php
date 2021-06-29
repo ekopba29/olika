@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" placeholder="" name="name"
-                            value={{ old('name') }}>
+                            value="{{ old('name') }}">
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label>Address</label>
                         <input type="text" class="form-control" placeholder="" name="address"
-                            value={{ old('address') }}>
+                            value="{{ old('address') }}">
                     </div>
                 </div>
                 <div class="col-lg-3">

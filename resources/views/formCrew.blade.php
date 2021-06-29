@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" class="form-control" placeholder="" name="name"
-                                        value={{ $name }}>
+                                        value="{{ $name }}">
                                 </div>
                             </div>
                             <div class="col-lg-3">

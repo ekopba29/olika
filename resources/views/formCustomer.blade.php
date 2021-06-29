@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" class="form-control" placeholder="" name="name"
-                                        value={{ $name }}>
+                                        value="{{ $name }}">
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label>Address</label>
                                     <input type="text" class="form-control" placeholder="" name="address"
-                                        value={{ $address }}>
+                                        value="{{ $address }}">
                                 </div>
                             </div>
                             <div class="col-lg-3">
