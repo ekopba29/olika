@@ -24,6 +24,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID</th>
                                 <th>Level</th>
                                 <th>Name</th>
                                 <th>Phone</th>
@@ -37,6 +38,7 @@
                             @forelse ($users as $number => $user)
                                 <tr>
                                     <td>{{ ++$number }}</td>
+                                    <td>{{ $user->unique_number }}</td>
                                     <td>{{ ucfirst($user->level) }}</td>
                                     <td>{{ $user->name }}</td>
                                     {{-- <td>{{ $user->username }}</td> --}}

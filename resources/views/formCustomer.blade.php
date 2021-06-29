@@ -4,6 +4,7 @@
     @php $name = $user->name ?? old('name') @endphp
     @php $email = $user->email ?? old('email') @endphp
     @php $phone = $user->phone ?? old('phone') @endphp
+    @php $unique_number = $user->unique_number ?? old('unique_number') @endphp
     @php $level = $user->level ?? old('level') @endphp
     @php $title =  Request::segment(2) == 'create'  ? "Add" : "Edit" @endphp
     <div class="row">
@@ -22,6 +23,14 @@
                             @method('PUT')
                         @endif
                         <div class="row justify-content-center">
+                            <div class="col-lg-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Unique Number (ID)</label>
+                                    <input type="text" class="form-control" placeholder="" name="unique_number"
+                                        value={{ $unique_number }}>
+                                </div>
+                            </div>
                             <div class="col-lg-3">
                                 <!-- text input -->
                                 <div class="form-group">

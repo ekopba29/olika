@@ -13,7 +13,7 @@
             <li class="page-item disabled"><a class="page-link" href="#">← Previous</a></li>
         @else
             <li class="page-item">
-                <a href="{{ $paginator->previousPageUrl() . "&" . http_build_query(Request::only(['name','email','phone','type','cat_name','owner','from','to'])) }}" class="page-link" rel="prev">
+                <a href="{{ $paginator->previousPageUrl() . "&" . http_build_query(Request::only(['name','email','phone','type','cat_name','owner','from','to','unique_number'])) }}" class="page-link" rel="prev">
                     ← Previous
                 </a>
             </li>
@@ -35,14 +35,14 @@
                         </li>
                     @else
                         <li class="page-item"><a class="page-link"
-                                href={{ $url . "&" . http_build_query(Request::only(['name','email','phone','type','cat_name','owner','from','to'])) }}>{{ $page }}</a></li>
+                                href={{ $url . "&" . http_build_query(Request::only(['name','email','phone','type','cat_name','owner','from','to','unique_number'])) }}>{{ $page }}</a></li>
                     @endif
                 @endforeach
             @endif
         @endforeach
 
         @if ($paginator->hasMorePages())
-            <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() . "&" . http_build_query(Request::all(['name','email','phone','type','cat_name','owner','from','to'])) }}" rel="next">Next →</a>
+            <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() . "&" . http_build_query(Request::all(['name','email','phone','type','cat_name','owner','from','to','unique_number'])) }}" rel="next">Next →</a>
             </li>
         @else
             <li class="page-item disabled"><a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">Next

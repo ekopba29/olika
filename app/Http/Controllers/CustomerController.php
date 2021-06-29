@@ -15,6 +15,7 @@ class CustomerController extends Controller
         $search = [
             "name" => $request->name ?? null,
             "email" => $request->email ?? null,
+            "unique_number" => $request->unique_number ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];
@@ -43,11 +44,11 @@ class CustomerController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            back()->with('error', 'Add Customer Failed!');
+            return back()->with('status_error', 'Add Customer Failed!');
         }
-
-
+        
         return back()->with('status_success', 'Customer Added!');
+
     }
 
     public function profile(User $user)
@@ -100,11 +101,14 @@ class CustomerController extends Controller
         $toValidate = [
             "phone" => "required|numeric",
             "name" => "required",
-            "level" => "in:member,notmember"
+            "level" => "in:member,notmember",
         ];
-
+        
         if ($action == "store") {
             $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
+        }
+        if ($request->level == "member") {
+            $toValidate = array_merge($toValidate, ["unique_number" => "required|unique:users,unique_number"]);
         }
         if ($action == "update") {
             $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email," . $request->customer->id]);

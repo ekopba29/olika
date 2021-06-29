@@ -96,6 +96,13 @@
                             {{ Session::get('status_success') }}
                         </div>
                     @endif
+                    @if (Session::get('status_error'))
+                        <div class="alert alert-danger alert-dismissible align-self-center align-items-center">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-close"></i> Ups!</h5>
+                            {{ Session::get('status_eror') }}
+                        </div>
+                    @endif
 
                     @yield('content')
                 </div><!-- /.container-fluid -->

@@ -15,6 +15,7 @@ class CrewController extends Controller
         $search = [
             "name" => $request->name ?? null,
             "email" => $request->email ?? null,
+            "unique_number" => $request->unique_number ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];

@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'unique_number',
         'phone',
         'level',
         'password',
@@ -58,6 +59,7 @@ class User extends Authenticatable
         $get = $this->with('freeGrooming', 'cats')->withCount('cats');
         if ($search["name"] != null) $get->orWhere("users.name",'like','%' .$search["name"] . '%');
         if ($search["email"] != null) $get->orWhere("users.email",'like','%'. $search["email"] . '%');
+        if ($search["unique_number"] != null) $get->orWhere("users.unique_number",'like','%'. $search["unique_number"] . '%');
         if ($search["phone"] != null) $get->orWhere("users.phone", 'like','%' .$search["phone"] . '%');
         if ($search["level"] != null) {
             $get->orWhere("users.level", $search["level"]);

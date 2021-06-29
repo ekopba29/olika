@@ -8,6 +8,16 @@
         <div class="mb-3"></div>
         <form method='GET' action={{ Request::path() == "customer" ? route('customer.index') : route('crew.index') }}>
             <div class="row justify-content-center">
+                @if (Request::segment(1) == "customer")
+                <div class="col-lg-3">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Unique Number (ID)</label>
+                        <input type="text" class="form-control" placeholder="" name="unique_number"
+                            value={{ old('unique_number') }}>
+                    </div>
+                </div>
+                @endif
                 <div class="col-lg-3">
                     <!-- text input -->
                     <div class="form-group">
