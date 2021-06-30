@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="pull-right">{{(Request::path() == 'customer') ? 'Customer' : 'Crew'}}</h4>
+                        <h4 class="pull-right">{{ Request::path() == 'customer' ? 'Customer' : 'Crew' }}</h4>
                         @if (Request::path() == 'customer')
                             <a href={{ route('customer.create') }}>
                                 <button class="btn btn btn-block bg-navy">Add Customer</button>
@@ -56,7 +56,8 @@
                                             <div class="dropdown-menu" x-placement="bottom-start">
                                                 @if ($user->cats_count > 0)
                                                     <a class="dropdown-item"
-                                                        href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat List</a>
+                                                        href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat
+                                                        List</a>
                                                     <a class="dropdown-item"
                                                         href={{ route('grooming.add', ['user' => $user->id]) }}>
                                                         Grooming

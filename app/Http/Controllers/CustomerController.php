@@ -17,6 +17,9 @@ class CustomerController extends Controller
             "email" => $request->email ?? null,
             "unique_number" => $request->unique_number ?? null,
             "address" => $request->address ?? null,
+            "subdis_id" => substr($request->subdistricts,0,5) ?? null,
+            "districts" => substr($request->districts,0,4) ?? null,
+            "cities" => substr($request->cities,0,3) ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];
@@ -46,7 +49,7 @@ class CustomerController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            // dd($e);
+            dd($e);
             return back()->with('status_error', 'Add Customer Failed!');
         }
         
@@ -105,6 +108,9 @@ class CustomerController extends Controller
             "phone" => "required|numeric",
             "name" => "required",
             "address" => "required",
+            "cities" => "required",
+            "districts" => "required",
+            "subdis_id" => "required",
             "level" => "in:member,notmember",
         ];
         

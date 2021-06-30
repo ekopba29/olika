@@ -65,6 +65,30 @@
                                 </div>
                             </div>
                             <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Cities (Kota)</label>
+                                    <select class="custom-select" id="cities" name="cities">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Districts (Kacamatan)</label>
+                                    <select class="custom-select" id="districts" name="districts">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Sub Districts (Kelurahan)</label>
+                                    <select class="custom-select" id="subdistricts" name="subdis_id">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
                                 <label>Level</label>
                                 <!-- text input -->
                                 <div class="form-group">
@@ -86,3 +110,70 @@
         </div>
     </div>
 @endsection
+
+@push('third_party_scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(function() {
+            let all_resp_addr;
+
+            $.ajax({
+                type: "get",
+                url: @php echo '"' .route('addresser') . '"'@endphp,
+                dataType: "json",
+                success: function(response) {
+                    lempar_keluar_ajax(response);
+                }
+            });
+
+            function lempar_keluar_ajax(response) {
+                all_resp_addr = response;
+                build_city();
+            }
+
+            function build_city() {
+                const city = Object.keys(all_resp_addr);
+                $.map(city, function(elementOrValue, indexOrKey) {
+                    $("#cities").append("<option value=" + elementOrValue + ">" + elementOrValue.substr(
+                        4) + "</options>");
+                });
+                build_kecamatan();
+            }
+
+            function build_kecamatan() {
+                $("#cities").change(function(e) {
+                    if ($("#cities").val() != "") {
+                        const city = $(this).val();
+                        const subdistricts = Object.keys(all_resp_addr[city]);
+                        $("#districts").html('<option></option>');
+                        $.map(subdistricts, function(elementOrValue, indexOrKey) {
+                            $("#districts").append("<option value=" + elementOrValue + ">" +
+                                elementOrValue.substr(5) + "</option>");
+                        });
+                        build_kelurahan();
+                    } else {
+                        $("#districts").html('<option></option>');
+                    }
+                });
+            }
+
+            function build_kelurahan() {
+                $("#districts,#cities").change(function(e) {
+                    if ($("#districts").val() != "") {
+                        const city = $("#cities").val();
+                        const kacamatan = $("#districts").val();
+                        const subdistricts = all_resp_addr[city][kacamatan];
+                        $("#subdistricts").html('<option></option>');
+                        $.map(subdistricts, function(elementOrValue, indexOrKey) {
+                            $("#subdistricts").append("<option value=" + elementOrValue[
+                                    "subdis_id"] + ">" +
+                                elementOrValue["subdis_name"] + "</option>");
+                        });
+                    } else {
+                        $("#subdistricts").html('<option></option>');
+                    }
+                });
+            }
+        })
+    </script>
+@endpush

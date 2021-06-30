@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Addresser;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,7 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/addresser', [Addresser::class, 'getAddreser'])->name('addresser');
 
     Route::get('/customer/search', [CustomerController::class, 'search'])->name('customer.search');
     Route::get('/customer/upgrade_to_member/{user}', [CustomerController::class, 'upgradeToMember'])->name('customer.upgradeToMember');
