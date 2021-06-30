@@ -28,8 +28,8 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Unique Number (ID)</label>
-                                    <input type="text" class="form-control" placeholder="" name="unique_number"
-                                        value={{ $unique_number }}>
+                                    <input type="text" class="form-control" placeholder="" name="unique_number" id="unique_number"
+                                        value="{{ $unique_number }}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -93,15 +93,15 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="member" name="level" @if ($level == 'member') checked="true" @endif>
+                                        <input class="form-check-input" type="radio" value="member" name="level" id="level" @if ($level == 'member') checked="true" @endif>
                                         <label class="form-check-label">Member</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="notmember" name="level" @if ($level == 'notmember') checked="true" @endif>
+                                        <input class="form-check-input" type="radio" value="notmember" name="level" id="level" @if ($level == 'notmember') checked="true" @endif>
                                         <label class="form-check-label">Not Member</label>
                                     </div>
                                 </div>
-                                <button class="btn btn-block bg-maroon text-white btn-xs" type="submit">Save</button>
+                                <button class="btn btn-block bg-maroon text-white btn-xs" type="submit" id="submit">Save</button>
                             </div>
                         </div>
                     </form>
@@ -116,6 +116,25 @@
     <script>
         $(function() {
             let all_resp_addr;
+
+            $('#level').on('change',function(){
+                const lvl = $(this).val();
+
+                if (lvl == "member"){
+                    $.ajax({
+                        type: "get",
+                        url: @php echo "'" . route('customer.generateUniqueId') . "'" @endphp,
+                        dataType: "text",
+                        success: function (response) {
+                            $("#unique_number").val(response);
+                            $('#submit').attr("disabled", false);
+                        },
+                        beforeSend: function (){
+                            $('#submit').attr("disabled", true);
+                        }
+                    });
+                }
+            });
 
             $.ajax({
                 type: "get",

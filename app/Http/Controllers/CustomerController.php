@@ -34,6 +34,13 @@ class CustomerController extends Controller
         return view("formCustomer");
     }
 
+    public function generateUniqueId()
+    {
+        $get = DB::table('users')->where('level','member')->count();
+        $newInt = date('ymd') . ($get+1);
+        echo "ONAWA".$newInt;
+    }
+
     public function store(Request $request)
     {
         $valid = $this->validateCustomer($request, "store");
@@ -49,7 +56,6 @@ class CustomerController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
             return back()->with('status_error', 'Add Customer Failed!');
         }
         
@@ -113,7 +119,7 @@ class CustomerController extends Controller
             "subdis_id" => "required",
             "level" => "in:member,notmember",
         ];
-        
+
         if ($action == "store") {
             $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
         }

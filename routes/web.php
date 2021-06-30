@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/addresser', [Addresser::class, 'getAddreser'])->name('addresser');
 
     Route::get('/customer/search', [CustomerController::class, 'search'])->name('customer.search');
+    Route::get('/customer/generate_unique_id', [CustomerController::class, 'generateUniqueId'])->name('customer.generateUniqueId');
     Route::get('/customer/upgrade_to_member/{user}', [CustomerController::class, 'upgradeToMember'])->name('customer.upgradeToMember');
     Route::resource('/customer', CustomerController::class);
 

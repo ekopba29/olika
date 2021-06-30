@@ -43,12 +43,12 @@
                                     <td>{{ ucfirst($user->level) }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>
-                                        <p>
                                             {{ $user->address }}
-                                            {{ $user->city_name }} -
-                                            {{ $user->dis_name }} -
-                                            {{ $user->subdis_name }}
-                                        </p>
+                                            <p>
+                                                {{ $user->city_name }} -
+                                                {{ $user->dis_name }} -
+                                                {{ $user->subdis_name }}
+                                            </p>
                                     </td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
