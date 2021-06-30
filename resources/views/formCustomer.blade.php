@@ -93,11 +93,11 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="member" name="level" id="level" @if ($level == 'member') checked="true" @endif>
+                                        <input class="form-check-input clvl" type="radio" value="member" name="level" id="level" @if ($level == 'member') checked="true" @endif>
                                         <label class="form-check-label">Member</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="notmember" name="level" id="level" @if ($level == 'notmember') checked="true" @endif>
+                                        <input class="form-check-input clvl" type="radio" value="notmember" name="level" id="level" @if ($level == 'notmember') checked="true" @endif>
                                         <label class="form-check-label">Not Member</label>
                                     </div>
                                 </div>
@@ -117,9 +117,9 @@
         $(function() {
             let all_resp_addr;
 
-            $('#level').on('change',function(){
+            $('.clvl').on('change',function(){
                 const lvl = $(this).val();
-
+                console.log(lvl)
                 if (lvl == "member"){
                     $.ajax({
                         type: "get",
@@ -133,6 +133,9 @@
                             $('#submit').attr("disabled", true);
                         }
                     });
+                }
+                else {
+                    $("#unique_number").val("");
                 }
             });
 

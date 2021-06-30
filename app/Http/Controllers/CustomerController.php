@@ -17,9 +17,9 @@ class CustomerController extends Controller
             "email" => $request->email ?? null,
             "unique_number" => $request->unique_number ?? null,
             "address" => $request->address ?? null,
-            "subdis_id" => substr($request->subdistricts,0,5) ?? null,
-            "districts" => substr($request->districts,0,4) ?? null,
-            "cities" => substr($request->cities,0,3) ?? null,
+            "subdis_id" => substr($request->subdistricts, 0, 5) ?? null,
+            "districts" => substr($request->districts, 0, 4) ?? null,
+            "cities" => substr($request->cities, 0, 3) ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];
@@ -34,11 +34,14 @@ class CustomerController extends Controller
         return view("formCustomer");
     }
 
-    public function generateUniqueId()
+    public function generateUniqueId($action = "create")
     {
-        $get = DB::table('users')->where('level','member')->count();
-        $newInt = date('ymd') . ($get+1);
-        echo "ONAWA".$newInt;
+        $get = DB::table('users')->where('level', 'member')->count();
+        // $plus = $action == "create" ? 1 : 2;
+        $newInt =  ($get + 1);
+
+        echo "ONAWA" . date('ymd') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
+        return "ONAWA" . date('ymd') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
     }
 
     public function store(Request $request)
@@ -58,9 +61,8 @@ class CustomerController extends Controller
             DB::rollback();
             return back()->with('status_error', 'Add Customer Failed!');
         }
-        
-        return back()->with('status_success', 'Customer Added!');
 
+        return back()->with('status_success', 'Customer Added!');
     }
 
     public function profile(User $user)
@@ -99,7 +101,7 @@ class CustomerController extends Controller
 
     public function upgradeToMember(User $user)
     {
-        $user->update(["level" => "member"]);
+        $user->update(["level" => "member", 'unique_number' => $this->generateUniqueId()]);
         FreeGrooming::create([
             "owner_id" => $user->id,
             "total" => 0
