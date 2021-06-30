@@ -68,6 +68,7 @@ class User extends Authenticatable
         // DB::enableQueryLog(); // Enable query log
 
         $get = $this->with('freeGrooming', 'cats')->withCount('cats');
+        $get->select('*');
         $get->join('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id');
         $get->join('districts', 'districts.dis_id', '=', 'subdistricts.dis_id');
         $get->join('cities', 'cities.city_id', '=', 'districts.city_id');

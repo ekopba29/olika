@@ -20,7 +20,7 @@
                         @endif
                     </div>
                     <div class="mb-3"></div>
-                    <table class="table table-responsive-sm">
+                    <table class="table table-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -42,7 +42,14 @@
                                     <td>{{ $user->unique_number }}</td>
                                     <td>{{ ucfirst($user->level) }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->address }}</td>
+                                    <td>
+                                        <p>
+                                            {{ $user->address }}
+                                            {{ $user->city_name }} -
+                                            {{ $user->dis_name }} -
+                                            {{ $user->subdis_name }}
+                                        </p>
+                                    </td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->cats_count ?? '-' }}</td>
