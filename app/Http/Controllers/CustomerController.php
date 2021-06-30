@@ -40,8 +40,8 @@ class CustomerController extends Controller
         // $plus = $action == "create" ? 1 : 2;
         $newInt =  ($get + 1);
 
-        echo "ONAWA" . date('ymd') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
-        return "ONAWA" . date('ymd') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
+        echo "ONAWA" . date('ymdhis') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
+        return "ONAWA" . date('ymdhis') . str_pad($newInt, 4, "0", STR_PAD_LEFT);
     }
 
     public function store(Request $request)
