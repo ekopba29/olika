@@ -25,13 +25,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>ID</th>
-                                <th>Level</th>
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Total Cats</th>
-                                <th>Free Grooming</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -40,8 +37,7 @@
                                 <tr>
                                     <td>{{ ++$number }}</td>
                                     <td>{{ $user->unique_number }}</td>
-                                    <td>{{ ucfirst($user->level) }}</td>
-                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->name }}   [{{ ucfirst($user->level) }}]</td>
                                     <td>
                                             {{ $user->address }}
                                             <p>
@@ -52,11 +48,14 @@
                                     </td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->cats_count ?? '-' }}</td>
-                                    <td>{{ $user->freeGrooming->total ?? '-' }}</td>
+                                    <td> Total Cats  : {{ $user->cats_count ?? '-' }} 
+                                        <br>
+                                         Free Grooming : {{ $user->freeGrooming->total ?? '-' }}
+                                        </td>
+                                    <td></td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-danger dropdown-toggle" type="button"
+                                            <button class="btn btn-danger dropdown-toggle btn-xs" type="button"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Options
                                             </button>
