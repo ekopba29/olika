@@ -94,7 +94,7 @@ class User extends Authenticatable
 
         // dd(DB::getQueryLog()); // Show results of log
 
-        return $get->paginate(5);
+        return $get->orderBy('created_at','desc')->paginate(5);
     }
 
     public function searchUser($search)
