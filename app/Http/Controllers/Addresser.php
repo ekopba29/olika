@@ -16,7 +16,7 @@ class Addresser extends Controller
         ->get();
         
         foreach($getter as $no => $item){
-            $kota[$item->city_id."-".$item->city_name][$item->dis_id."-".$item->dis_name][] = $item; 
+            $kota[$item->city_id."-". str_replace(" ","_",$item->city_name)][$item->dis_id."-".str_replace(" ","_",$item->dis_name)][] = $item; 
         }
 
         echo json_encode($kota);
