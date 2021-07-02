@@ -28,7 +28,7 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Total Cats</th>
+                                <th>Total Grooming</th>
                                 <th>Free Grooming</th>
                                 <th></th>
                             </tr>
@@ -42,7 +42,7 @@
                                     {{-- <td>{{ $user->username }}</td> --}}
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->cats_count ?? '-' }}</td>
+                                    <td>{{ $user->groomings->count() ?? '-' }}</td>
                                     <td>{{ $user->freeGrooming->total ?? '-' }}</td>
                                     <td>
                                         <div class="btn-group">
@@ -51,7 +51,7 @@
                                                 Options
                                             </button>
                                             <div class="dropdown-menu" x-placement="bottom-start">
-                                                @if ($user->cats_count > 0)
+                                                @if ($user->groomings->count() > 0)
                                                     <a class="dropdown-item"
                                                         href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat List</a>
                                                     <a class="dropdown-item"

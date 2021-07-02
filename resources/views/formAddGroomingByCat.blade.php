@@ -11,7 +11,7 @@
                             <p></p>
                             <div class="card-body">
                                 <form id='form-grooming' method="POST"
-                                    action={{ route('grooming.store', ['user' => Request::segment(2)]) }}>
+                                    action={{ route('grooming.storeBycat', ['cat' => Request::segment(2)]) }}>
                                     <p class="mb-3"></p>
                                     <div class="row d-flex justify-content-center">
                                         @csrf
@@ -53,6 +53,7 @@
                                             <div class="form-group">
                                                 <label for="groomer">Cat</label>
                                                 <input id="cat-id" name="cat" value={{ $datas->id }}>
+                                                <input id="owner-id" name="owner" value={{ $datas->owner->id }}>
                                             </div>
                                         </div>
                                         <div class=" col-sm-12 col-lg-3">

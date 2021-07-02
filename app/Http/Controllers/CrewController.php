@@ -25,7 +25,7 @@ class CrewController extends Controller
         ];
         // dd($user->listUser(["member", "notmember"], $search)->appends($request->all()));
         return view("listCrew", [
-            "users" => $user->listUser(["owner", "crew"], $search)
+            "users" => $user->listUser(["owner", "crew"], $search, "crew")
         ]);
     }
 
@@ -53,8 +53,7 @@ class CrewController extends Controller
             return back()->with('status_success', 'Crew Added!');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
-            return back()->with('error', 'Add Crew Failed!');
+            return back()->with('status_error', 'Add Crew Failed!');
         }
     }
 
@@ -80,11 +79,12 @@ class CrewController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $customer)
+    public function update(Request $request, User $crew)
     {
-        $customer->update($this->validateCrew($request, "update"));
+        // dd($request);
+        $crew->update($this->validateCrew($request, "update"));
 
-        return back()->with('status_success', 'Ctrw Updated!');
+        return back()->with('status_success', 'Crew Updated!');
     }
 
     public function destroy(User $user)
@@ -115,7 +115,7 @@ class CrewController extends Controller
             $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
         }
         if ($action == "update") {
-            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email," . $request->customer->id]);
+            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email," . $request->crew->id]);
         }
 
 

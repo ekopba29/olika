@@ -55,7 +55,40 @@ class GroomingController extends Controller
             return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'Register Grooming Failed');
+            return back()->with('status_error', 'Register Grooming Failed');
+        }
+    }
+
+    public function storeGroomingByCat(HttpRequest $request)
+    {
+        // dd($request);
+        $catId = FacedesRequest::segment(2);
+        $this->validateStoreGrooming($request);
+
+        DB::beginTransaction();
+        try {
+            Grooming::create([
+                "owner_id" => $request->owner,
+                "cat_id" => $catId,
+                "groomer_id" => $request->groomer,
+                "inputer_id" => Auth::id(),
+                "grooming_at" => now(),
+                "accumulated_free_grooming" => 'n',
+                "payment" => $request->payment,
+            ]);
+
+            $levelOwner = User::where("id", $request->owner)->first()->level;
+            if ($levelOwner != "notmember") {
+                in_array($request->payment, ["free"]) ?
+                    $this->recalculateFreeGrooming($request->owner, 'decrease')
+                    :
+                    $this->recalculateFreeGrooming($request->owner, 'increase');
+            }
+            DB::commit();
+            return back()->with('status_success', 'Grooming Added');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('status_error', 'Register Grooming Failed');
         }
     }
 
@@ -153,7 +186,10 @@ class GroomingController extends Controller
     public function report(HttpRequest $request, Grooming $grooming)
     {
         if ($request->has(['from', 'to'])) {
-            $grooming = $grooming->whereBetween('grooming_at', [date('Y-m-d', strtotime($request->from)), date('y-m-d', strtotime($request->to))])->get();
+            $grooming = $grooming->whereBetween('grooming_at', [
+                date('Y-m-d', strtotime($request->from)),
+                date('Y-m-d', strtotime($request->to))
+            ])->get();
         } else {
             $grooming = null;
         }

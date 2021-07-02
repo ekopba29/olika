@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Cat::class, "owner_id");
     }
 
+    public function groomings()
+    {
+        return $this->hasMany(Grooming::class, "groomer_id");
+    }
+
     public function freeGrooming()
     {
         return $this->hasOne(FreeGrooming::class, "owner_id");
@@ -62,13 +67,16 @@ class User extends Authenticatable
         return $this->hasOne(Subdistrict::class, "subdis_id");
     }
 
-    public function listUser($level, $search)
+    public function listUser($level, $search, $show = "customer")
     {
 
         // DB::enableQueryLog(); // Enable query log
 
         $get = $this->with('freeGrooming', 'cats')->withCount('cats');
         $get->select('*');
+        if($show == "crew") {
+            $get->with('groomings');
+        }
         $get->leftJoin('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id');
         $get->leftJoin('districts', 'districts.dis_id', '=', 'subdistricts.dis_id');
         $get->leftJoin('cities', 'cities.city_id', '=', 'districts.city_id');

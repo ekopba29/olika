@@ -48,7 +48,7 @@
                                     </td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td> Total Cats  : {{ $user->cats_count ?? '-' }} 
+                                    <td> Total Cats  : {{ $user->cats->count() ?? '-' }} 
                                         <br>
                                          Free Grooming : {{ $user->freeGrooming->total ?? '-' }}
                                         </td>
@@ -60,7 +60,7 @@
                                                 Options
                                             </button>
                                             <div class="dropdown-menu" x-placement="bottom-start">
-                                                @if ($user->cats_count > 0)
+                                                @if ($user->cats->count() > 0)
                                                     <a class="dropdown-item"
                                                         href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat
                                                         List</a>
