@@ -1,6 +1,6 @@
 @extends('layouts.mainAdmin')
 @section('content')
-    @php $action = Request::segment(2) == 'create' ? route('customer.store') : route('customer.update', ['customer' => $user->id]) @endphp
+    @php $action = Request::segment(2) == 'create' ? route('crew.store') : route('crew.update', ['crew' => $user->id]) @endphp
     @php $name = $user->name ?? old('name') @endphp
     @php $email = $user->email ?? old('email') @endphp
     @php $phone = $user->phone ?? old('phone') @endphp

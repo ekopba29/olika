@@ -36,13 +36,13 @@ class CrewController extends Controller
 
     public function store(Request $request)
     {
-        $crew = $this->validateCrew($request, "store");
+        $crewValidation = $this->validateCrew($request, "store");
         DB::beginTransaction();
         try {
-            User::create(
+            $crew = User::create(
                 array_merge(
                     ["level" => "crew"],
-                    $crew
+                    $crewValidation
                 )
             );
             FreeGrooming::create([
@@ -53,6 +53,7 @@ class CrewController extends Controller
             return back()->with('status_success', 'Crew Added!');
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return back()->with('error', 'Add Crew Failed!');
         }
     }
