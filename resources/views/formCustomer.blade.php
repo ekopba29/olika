@@ -112,7 +112,8 @@
 @endsection
 
 @push('third_party_scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js')}}"></script>
+
     <script>
         $(function() {
             let all_resp_addr;
