@@ -69,9 +69,9 @@ class User extends Authenticatable
 
         $get = $this->with('freeGrooming', 'cats')->withCount('cats');
         $get->select('*');
-        $get->join('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id');
-        $get->join('districts', 'districts.dis_id', '=', 'subdistricts.dis_id');
-        $get->join('cities', 'cities.city_id', '=', 'districts.city_id');
+        $get->leftJoin('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id');
+        $get->leftJoin('districts', 'districts.dis_id', '=', 'subdistricts.dis_id');
+        $get->leftJoin('cities', 'cities.city_id', '=', 'districts.city_id');
 
         if ($search["name"] != null) $get->orWhere("users.name", 'like', '%' . $search["name"] . '%');
         if ($search["email"] != null) $get->orWhere("users.email", 'like', '%' . $search["email"] . '%');
