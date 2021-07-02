@@ -16,6 +16,10 @@ class CrewController extends Controller
             "name" => $request->name ?? null,
             "email" => $request->email ?? null,
             "unique_number" => $request->unique_number ?? null,
+            "address" => $request->address ?? null,
+            "subdis_id" => substr($request->subdistricts, 0, 5) ?? null,
+            "districts" => substr($request->districts, 0, 4) ?? null,
+            "cities" => substr($request->cities, 0, 3) ?? null,
             "level" => $request->level ?? null,
             "phone" => $request->phone ?? null
         ];
