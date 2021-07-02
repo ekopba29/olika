@@ -30,7 +30,6 @@
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Total Grooming</th>
-                                    <th>Free Grooming</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -44,7 +43,6 @@
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->groomings->count() ?? '-' }}</td>
-                                        <td>{{ $user->freeGrooming->total ?? '-' }}</td>
                                         <td>
                                             <div class="btn-group">
                                                 <button class="btn btn-danger dropdown-toggle" type="button"
