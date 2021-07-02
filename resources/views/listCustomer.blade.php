@@ -19,8 +19,8 @@
                             </a>
                         @endif
                     </div>
-                    <div class="mb-3"></div>
-                    <table class="table table-responsive">
+                    <div class="mb-3 table-responsive"></div>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>No</th>

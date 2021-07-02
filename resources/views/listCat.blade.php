@@ -37,9 +37,9 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body table-responsive-sm">
                         <h3>All Cat</h3>
-                        <table class="table table-responsive-sm">
+                        <table class="table">
                             <thead>
                                 <th>Name</th>
                                 <th>Owner</th>
