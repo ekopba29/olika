@@ -56,6 +56,12 @@
                                                 <input id="owner-id" name="owner" value={{ $datas->owner->id }}>
                                             </div>
                                         </div>
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="groomer">Date</label>
+                                                <input id="groom_date" name="groom_date" class="groom_date form-control" value="{{ old('groom_date') ?? now() }}">
+                                            </div>
+                                        </div>
                                         <div class=" col-sm-12 col-lg-3">
                                             {{-- Groomer : <h5>{{ $freeGrooming }}</h5> --}}
                                             <div class="form-group">
@@ -94,3 +100,24 @@
     </div>
     @include('modalReviewGrooming')
 @endsection
+
+@push('third_party_scripts')
+    <script src="{{ asset('js/jquery.min.js')}}"></script>
+
+    <script>
+        $(function() {
+            //Date range picker with time picker
+            $('.groom_date').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                icons: {
+                    up: "fa fa-chevron-circle-up",
+                    down: "fa fa-chevron-circle-down",
+                    next: 'fa fa-chevron-circle-right',
+                    previous: 'fa fa-chevron-circle-left',
+                    time: 'fa fa-clock',
+
+                },
+            });
+        })
+    </script>
+@endpush

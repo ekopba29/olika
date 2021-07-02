@@ -113,7 +113,7 @@ class CustomerController extends Controller
 
         $toValidate = [
             "phone" => "required|numeric",
-            "name" => "required",
+            "name" => "required|unique:users,name",
             "address" => "required",
             "cities" => "required",
             "districts" => "required",

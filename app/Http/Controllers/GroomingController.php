@@ -39,7 +39,7 @@ class GroomingController extends Controller
                 "cat_id" => $request->cat,
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
-                "grooming_at" => now(),
+                "grooming_at" => $request->groom_date ?? now(),
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
             ]);
@@ -72,7 +72,7 @@ class GroomingController extends Controller
                 "cat_id" => $catId,
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
-                "grooming_at" => now(),
+                "grooming_at" =>  $request->groom_date ?? now(),
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
             ]);
@@ -143,7 +143,8 @@ class GroomingController extends Controller
                     }
                 },
             ],
-            "cat" => ["required", "exists:cats,id"]
+            "cat" => ["required", "exists:cats,id"],
+            "groom_date" => ["required", "date_format:Y-m-d H:i"]
         ]);
     }
 
