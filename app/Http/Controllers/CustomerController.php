@@ -113,7 +113,6 @@ class CustomerController extends Controller
 
         $toValidate = [
             "phone" => "required|numeric",
-            "name" => "required|unique:users,name",
             "address" => "required",
             "cities" => "required",
             "districts" => "required",
@@ -122,7 +121,14 @@ class CustomerController extends Controller
         ];
 
         if ($action == "store") {
-            $toValidate = array_merge($toValidate, ["email" => "email|nullable|unique:users,email"]);
+            $toValidate = array_merge($toValidate, [
+                [
+                    "email" => "email|nullable|unique:users,email"
+                ],
+                [
+                    "name" => "required|unique:users,name"
+                ]
+            ]);
         }
         if ($request->level == "member") {
             if ($action == "store") {
@@ -131,7 +137,10 @@ class CustomerController extends Controller
         }
         if ($action == "update") {
             $toValidate = array_merge($toValidate, [
-                ["email" => "email|nullable|unique:users,email," . $request->customer->id],
+                [
+                    ["email" => "email|nullable|unique:users,email," . $request->customer->id],
+                    ["name" => "required"],
+                ],
             ]);
         }
 
