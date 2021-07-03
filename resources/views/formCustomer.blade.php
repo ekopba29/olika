@@ -156,7 +156,7 @@
 
             function build_city() {
                 const city = Object.keys(all_resp_addr);
-                const idCurrentCity = @php echo $user->city_id @endphp;
+                const idCurrentCity = @php echo $user->city_id ?? ""; @endphp;
                 $.map(city, function(elementOrValue, indexOrKey) {
                     const repeatCity = elementOrValue.substr(0,3);
                     const selected = repeatCity == idCurrentCity ? "selected" : "";
@@ -172,7 +172,7 @@
                     if ($("#cities").val() != "") {
                         const city = $(this).val();
                         const subdistricts = Object.keys(all_resp_addr[city]);
-                        const idCurrentKecamatan = @php echo $user->dis_id @endphp;
+                        const idCurrentKecamatan = @php echo $user->dis_id ?? ""; @endphp;
                         $("#districts").html('<option></option>');
                         $.map(subdistricts, function(elementOrValue, indexOrKey) {
                             const repeatKecamatan = elementOrValue.substr(0,4);
@@ -195,7 +195,7 @@
                         const city = $("#cities").val();
                         const kacamatan = $("#districts").val();
                         const subdistricts = all_resp_addr[city][kacamatan];
-                        const idCurrentKelurahan = @php echo $user->subdis_id @endphp;
+                        const idCurrentKelurahan = @php echo $user->subdis_id ?? ""; @endphp;
 
                         $("#subdistricts").html('<option></option>');
                         $.map(subdistricts, function(elementOrValue, indexOrKey) {
