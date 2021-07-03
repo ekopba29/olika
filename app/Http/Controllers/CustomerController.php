@@ -82,7 +82,9 @@ class CustomerController extends Controller
     public function edit(User $customer)
     {
         return view("formCustomer", [
-            "user" => $customer
+            "user" => $customer->select('*')->leftJoin('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id')
+                ->leftJoin('districts', 'districts.dis_id', '=', 'subdistricts.dis_id')
+                ->leftJoin('cities', 'cities.city_id', '=', 'districts.city_id')->where('id',$customer->id)->first()
         ]);
     }
 

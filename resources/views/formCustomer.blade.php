@@ -156,11 +156,15 @@
 
             function build_city() {
                 const city = Object.keys(all_resp_addr);
+                const idCurrentCity = @php echo $user->city_id @endphp;
                 $.map(city, function(elementOrValue, indexOrKey) {
-                    $("#cities").append("<option value=" + elementOrValue + ">" + elementOrValue.substr(
+                    const repeatCity = elementOrValue.substr(0,3);
+                    const selected = repeatCity == idCurrentCity ? "selected" : "";
+                    $("#cities").append("<option value='" + elementOrValue + "'" + selected + ">" + elementOrValue.substr(
                         4) + "</options>");
                 });
                 build_kecamatan();
+                $("#cities").change();
             }
 
             function build_kecamatan() {
@@ -168,12 +172,17 @@
                     if ($("#cities").val() != "") {
                         const city = $(this).val();
                         const subdistricts = Object.keys(all_resp_addr[city]);
+                        const idCurrentKecamatan = @php echo $user->dis_id @endphp;
                         $("#districts").html('<option></option>');
                         $.map(subdistricts, function(elementOrValue, indexOrKey) {
-                            $("#districts").append("<option value=" + elementOrValue + ">" +
+                            const repeatKecamatan = elementOrValue.substr(0,4);
+                            const selected = repeatKecamatan == idCurrentKecamatan ? "selected" : "";
+                            $("#districts").append("<option value='" + elementOrValue + "'" + selected + ">" +
                                 elementOrValue.substr(5) + "</option>");
                         });
                         build_kelurahan();
+                        $("#districts").change();
+
                     } else {
                         $("#districts").html('<option></option>');
                     }
@@ -186,10 +195,14 @@
                         const city = $("#cities").val();
                         const kacamatan = $("#districts").val();
                         const subdistricts = all_resp_addr[city][kacamatan];
+                        const idCurrentKelurahan = @php echo $user->subdis_id @endphp;
+
                         $("#subdistricts").html('<option></option>');
                         $.map(subdistricts, function(elementOrValue, indexOrKey) {
-                            $("#subdistricts").append("<option value=" + elementOrValue[
-                                    "subdis_id"] + ">" +
+                            const repeatKelurahan = elementOrValue['subdis_id'];
+                            const selected = repeatKelurahan == idCurrentKelurahan ? "selected" : "";
+                            $("#subdistricts").append("<option value='" + elementOrValue[
+                                    "subdis_id"] + "'" +selected + ">" +
                                 elementOrValue["subdis_name"] + "</option>");
                         });
                     } else {
