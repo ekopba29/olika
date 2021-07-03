@@ -187,10 +187,13 @@ class GroomingController extends Controller
     public function report(HttpRequest $request, Grooming $grooming)
     {
         if ($request->has(['from', 'to'])) {
-            $grooming = $grooming->whereBetween('grooming_at', [
-                date('Y-m-d', strtotime($request->from)),
-                date('Y-m-d', strtotime($request->to))
-            ])->get();
+            $grooming = $grooming
+            // ->whereBetween('grooming_at', [
+            //     date('Y-m-d', strtotime($request->from)),
+            //     date('Y-m-d', strtotime($request->to))
+            // ])->get()
+            ->whereDate('grooming_at', '>=' , $request->from )
+            ->whereDate('grooming_at', '<=' , $request->to )->get();
         } else {
             $grooming = null;
         }
