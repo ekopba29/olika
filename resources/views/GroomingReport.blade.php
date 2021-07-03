@@ -184,7 +184,7 @@
                                         {{-- <td>{{ $user->username }}</td> --}}
                                         <td>{{ ucfirst($data->groomer->name) }}</td>
                                         <td>{{ ucfirst($data->payment) }}</td>
-                                        <td>{{ date('d M Y H:i', strtotime($data->created_at)) }}</td>
+                                        <td>{{ date('d M Y H:i', strtotime($data->grooming_at)) }}</td>
                                     </tr>
                                 @endforeach
                             @endunless
