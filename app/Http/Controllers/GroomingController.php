@@ -193,7 +193,9 @@ class GroomingController extends Controller
             //     date('Y-m-d', strtotime($request->to))
             // ])->get()
             ->whereDate('grooming_at', '>=' ,date('Y-m-d', strtotime($request->from)) )
-            ->whereDate('grooming_at', '<=' , date('Y-m-d', strtotime($request->to)) )->get();
+            ->whereDate('grooming_at', '<=' , date('Y-m-d', strtotime($request->to)) )
+            ->orderBy('grooming_at','desc')
+            ->get();
         } else {
             $grooming = null;
         }
