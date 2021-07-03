@@ -57,6 +57,7 @@ class CustomerController extends Controller
             }
             DB::commit();
         } catch (\Exception $e) {
+            dd($e);
             DB::rollback();
             return back()->with('status_error', 'Add Customer Failed!');
         }
@@ -84,7 +85,7 @@ class CustomerController extends Controller
         return view("formCustomer", [
             "user" => $customer->select('*')->leftJoin('subdistricts', 'subdistricts.subdis_id', '=', 'users.subdis_id')
                 ->leftJoin('districts', 'districts.dis_id', '=', 'subdistricts.dis_id')
-                ->leftJoin('cities', 'cities.city_id', '=', 'districts.city_id')->where('id',$customer->id)->first()
+                ->leftJoin('cities', 'cities.city_id', '=', 'districts.city_id')->where('id', $customer->id)->first()
         ]);
     }
 
@@ -123,14 +124,13 @@ class CustomerController extends Controller
         ];
 
         if ($action == "store") {
-            $toValidate = array_merge($toValidate, [
+            $toValidate = array_merge(
+                $toValidate,
                 [
-                    "email" => "email|nullable|unique:users,email"
-                ],
-                [
+                    "email" => "email|nullable|unique:users,email",
                     "name" => "required|unique:users,name"
                 ]
-            ]);
+            );
         }
         if ($request->level == "member") {
             if ($action == "store") {
@@ -139,10 +139,8 @@ class CustomerController extends Controller
         }
         if ($action == "update") {
             $toValidate = array_merge($toValidate, [
-                [
-                    ["email" => "email|nullable|unique:users,email," . $request->customer->id],
-                    ["name" => "required"],
-                ],
+                    "email" => "email|nullable|unique:users,email," . $request->customer->id,
+                    "name" => "required",
             ]);
         }
 
