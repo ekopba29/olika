@@ -39,7 +39,7 @@ class GroomingController extends Controller
                 "cat_id" => $request->cat,
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
-                "grooming_at" => $request->groom_date ?? now(),
+                "grooming_at" => $request->groom_date,
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
             ]);
@@ -72,7 +72,7 @@ class GroomingController extends Controller
                 "cat_id" => $catId,
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
-                "grooming_at" =>  $request->groom_date ?? now(),
+                "grooming_at" =>  $request->groom_date,
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
             ]);
