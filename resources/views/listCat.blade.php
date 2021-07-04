@@ -40,14 +40,16 @@
                         <h3>All Cat</h3>
                         <table class="table">
                             <thead>
+                                <th>No</th>
                                 <th>Name</th>
                                 <th>Owner</th>
                                 <th>Birth date</th>
                                 <th>Options</th>
                             </thead>
                             <tbody>
-                                @forelse ($cats as $cat)
+                                @forelse ($cats as $no => $cat)
                                     <tr>
+                                        <td>{{ ++$no }}</td>
                                         <td>{{ $cat->name }}</td>
                                         <td>{{ $cat->owner }}</td>
                                         <td>{{ date('d M Y',strtotime($cat->birth_date)) }}</td>
