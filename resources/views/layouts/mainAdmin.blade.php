@@ -56,7 +56,12 @@
 
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item">
+                    <li class="nav-item text-navy">
+                       <a class="nav-link">
+                           {{ ucfirst(Auth::user()->name) }}
+                        </a>
+                    </li> 
+                    <li class="nav-item text-navy">
                         <a class="nav-link" href="#" role="button"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-power-off"></i>
