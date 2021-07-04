@@ -50,7 +50,7 @@
                                                     Options
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start">
-                                                    @if ($user->groomingsCrew->count() > 0)
+                                                    @if ($user->cats->count() > 0)
                                                         <a class="dropdown-item"
                                                             href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat List</a>
                                                         <a class="dropdown-item"
