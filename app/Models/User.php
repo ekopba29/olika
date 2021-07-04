@@ -80,7 +80,7 @@ class User extends Authenticatable
         $get = $this->with('freeGrooming', 'cats')->withCount('cats');
         $get->select('*');
         if($show == "crew") {
-            $get->with('groomings');
+            $get->with('groomingsCrew');
         }
         if($show == "customer") {
             $get->with('groomingsCustomer');

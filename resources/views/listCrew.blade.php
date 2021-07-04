@@ -42,7 +42,7 @@
                                         {{-- <td>{{ $user->username }}</td> --}}
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->groomings->count() ?? '-' }}</td>
+                                        <td>{{ $user->groomingsCrew->count() ?? '-' }}</td>
                                         <td>
                                             <div class="btn-group">
                                                 <button class="btn btn-danger dropdown-toggle" type="button"
@@ -50,7 +50,7 @@
                                                     Options
                                                 </button>
                                                 <div class="dropdown-menu" x-placement="bottom-start">
-                                                    @if ($user->groomings->count() > 0)
+                                                    @if ($user->groomingsCrew->count() > 0)
                                                         <a class="dropdown-item"
                                                             href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat List</a>
                                                         <a class="dropdown-item"
