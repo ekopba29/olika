@@ -74,7 +74,7 @@
             <!-- Main content -->
             <div class="content">
                 <span class="m-5"></span>
-                <div class="container">
+                <div class="container-fluid">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

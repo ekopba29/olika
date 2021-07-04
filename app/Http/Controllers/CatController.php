@@ -13,11 +13,12 @@ class CatController extends Controller
         $data = $cat->select("owner.name as owner","cats.*")->join('users as owner', 'cats.owner_id', '=', 'owner.id');
         $ownerName = $request->owner;
         if ($request->has('cat_name') && $request->cat_name != "") {
-            $data->where('cats.name', 'like', '%' . urldecode($ownerName) . '%');
+            $data->where('cats.name', 'like', ' %' . urldecode($ownerName) . '%');
         }
         if ($request->has('owner') && $request->owner != "") {
-            $data->orWhere('owner.name', 'like', '%' . urldecode($request->cat_name) . '%');
+            $data->Where('owner.name', 'like', ' %' . urldecode($request->cat_name) . '%');
         }
+        // dump($data->toSql());
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 

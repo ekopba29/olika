@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index(User $user)
     {
         return view("listUser", [
-            "users" => $user->listUser(["member","notmember"])
+            "users" => $user->listUser(["member","notmember"],"customer")
         ]);
     }
 
