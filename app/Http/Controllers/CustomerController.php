@@ -25,7 +25,7 @@ class CustomerController extends Controller
         ];
         // dd($user->listUser(["member", "notmember"], $search)->appends($request->all()));
         return view("listCustomer", [
-            "users" => $user->listUser(["member", "notmember"], $search)
+            "users" => $user->listUser(["member", "notmember"], $search, "customer")
         ]);
     }
 
@@ -57,7 +57,7 @@ class CustomerController extends Controller
             }
             DB::commit();
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             DB::rollback();
             return back()->with('status_error', 'Add Customer Failed!');
         }

@@ -28,6 +28,10 @@ class Grooming extends Model
         return $this->belongsTo(User::class,"owner_id");
     }
 
+    public function customer () {
+        return $this->belongsTo(User::class,"owner_id");
+    }
+
     public function groomer () {
         return $this->belongsTo(User::class,"groomer_id");
     }

@@ -108,7 +108,7 @@
         $(function() {
             //Date range picker with time picker
             $('.groom_date').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm',
+                format: 'YYYY-MM-DD',
                 icons: {
                     up: "fa fa-chevron-circle-up",
                     down: "fa fa-chevron-circle-down",

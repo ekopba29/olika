@@ -144,7 +144,7 @@ class GroomingController extends Controller
                 },
             ],
             "cat" => ["required", "exists:cats,id"],
-            "groom_date" => ["required", "date_format:Y-m-d H:i"]
+            "groom_date" => ["required", "date_format:Y-m-d"]
         ]);
     }
 

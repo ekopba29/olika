@@ -48,9 +48,12 @@
                                     </td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td> Total Cats  : {{ $user->cats->count() ?? '-' }} 
+                                    <td> 
+                                        Total Cats  : {{ $user->cats->count() ?? '-' }} 
                                         <br>
-                                         Free Grooming : {{ $user->freeGrooming->total ?? '-' }}
+                                        Free Grooming : {{ $user->freeGrooming->total ?? '-' }}
+                                        <br>
+                                        Total Grooming : {{ $user->groomingsCustomer->count() ?? '-' }}
                                         </td>
                                     <td></td>
                                     <td>
@@ -70,8 +73,7 @@
                                                     </a>
                                                 @endif
                                                 @if ($user->level == 'notmember')
-                                                    <a class="dropdown-item"
-                                                        href={{ route('customer.upgradeToMember', ['user' => $user->id]) }}>Upgrade
+                                                    <a class="dropdown-item" href="#" route="{{ route('customer.upgradeToMember', ['user' => $user->id]) }}" owner="{{ $user->name }}" onclick="confrimUpgrade(this)">Upgrade
                                                         to Member</a>
                                                 @endif
                                                 <a href={{ route('cat.createFor', ['user' => $user->id]) }}
@@ -99,5 +101,55 @@
             </div>
         </div>
     </div>
+    <div class="modal fade show" id="confirmationUpgrade" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-danger" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmation Upgrade to Member</h4>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="row">
+                            Upgrade &nbsp; <span class="confrimName"> </span> &nbsp; to Member ?
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a href="" id="submitUpgrade">
+                        <button class="btn btn-danger" type="button">Confirm</button>
+                    </a>
+                </div>
+            </div>
+    
+        </div>
     </div>
 @endsection
+
+@push('third_party_scripts')
+    
+        <script src="{{ asset('js/jquery.min.js')}}"></script>
+    
+        <script>
+           function confrimUpgrade(element) {
+    
+                const link = $(element).attr("route");
+                console.log(link)
+                const name = $(element).attr("owner");
+    
+                $(".confrimName").text("  " + name);
+                $("#submitUpgrade").attr('href',link);
+    
+                $('#confirmationUpgrade').modal({
+                    show: true
+                });
+            }
+    
+            function submitUpgrade(e) {
+                $("#form-grooming").submit();
+            }
+    
+        </script>
+    @endpush
