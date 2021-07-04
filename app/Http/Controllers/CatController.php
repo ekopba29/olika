@@ -18,8 +18,6 @@ class CatController extends Controller
         if ($request->has('owner') && $request->owner != "") {
             $data->orWhere('owner.name', 'like', '%' . urldecode($request->cat_name) . '%');
         }
-
-        $data->with('owner');
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 

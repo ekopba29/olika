@@ -104,8 +104,8 @@
                             @isset($groupGroomer)
                                 @php
                                     $no = 1;
-                                    @endphp
-                                    @php $totalAllGroomingan = 0; @endphp
+                                    $totalAllGroomingan = 0; 
+                                @endphp
                                 @foreach ($groupGroomer as $number => $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
