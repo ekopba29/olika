@@ -10,17 +10,16 @@ class CatController extends Controller
 {
     public function index(Request $request, Cat $cat)
     {
+        $data = $cat->select("*")->join('users as owner', 'cats.owner_id', '=', 'owner.id');
+        $ownerName = $request->owner;
         if ($request->has('cat_name')) {
-            $ownerName = $request->owner;
-            $data = $cat->join('users as owner','cats.owner_id','=','owner.id')
-                ->where('owner.name', 'like', '%' . urldecode($ownerName) . '%');
+            $data->where('owner.name', 'like', '%' . urldecode($ownerName) . '%');
         }
         if ($request->has('owner')) {
-            $data = $cat->join('users as owner','cats.owner_id','=','owner.id')
-                ->where('cats.name', 'like', '%' . urldecode($request->cat_name) . '%');
+            $data->orWhere('cats.name', 'like', '%' . urldecode($request->cat_name) . '%');
         }
-        
-        $data = $cat->with('owner');
+
+        $data->with('owner');
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 
@@ -37,7 +36,7 @@ class CatController extends Controller
             'birth_date' => 'required'
         ]);
         Cat::create([
-            'owner_id' => $request->owner, 'name' => request('name') ,'birth_date' => date('Y-m-d',strtotime($request->birth_date))
+            'owner_id' => $request->owner, 'name' => request('name'), 'birth_date' => date('Y-m-d', strtotime($request->birth_date))
         ]);
         return redirect(route('grooming.add', ['user' => $request->owner]))->with('status_success', 'Cat Added');
     }
