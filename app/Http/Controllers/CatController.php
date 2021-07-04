@@ -21,7 +21,7 @@ class CatController extends Controller
         if ($request->has('owner') && $request->owner != "") {
             $data->where('owner.name', 'like', '%' . $ownerName . '%');
         }
-        return view("listCat", ["cats" => $data->paginate(5)]);
+        return view("listCat", ["cats" => $data->paginate(10)]);
     }
 
     public function createfor(User $user)
