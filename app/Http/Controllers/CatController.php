@@ -20,6 +20,7 @@ class CatController extends Controller
         }
 
         $data->with('owner');
+        dump($data->toSql());
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 
