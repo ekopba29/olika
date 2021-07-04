@@ -124,8 +124,8 @@ class GroomingController extends Controller
             "payment" => [
                 "required",
                 Rule::in(['cash', 'debit', 'credit', 'free']),
-                function ($nameForm, $payment, $fail) {
-                    $idUser = FacedesRequest::segment(2);
+                function ($nameForm, $payment, $fail) use ($request) {
+                    $idUser = $request->owner;
                     // cek ketersediaan free, jika customer owner / crew tidak ada pengecekan 
                     if ($payment === 'free') {
 

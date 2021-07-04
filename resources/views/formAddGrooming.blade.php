@@ -45,6 +45,7 @@
                                             <div class="form-group">
                                                 <label for="groomer">Cat</label>
                                                 <input id="cat-id" name="cat" value="{{ old('cat') }}">
+                                                <input id="owner" name="owner" value="{{ $user->id }}">
                                             </div>
                                         </div>
                                         <div>

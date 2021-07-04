@@ -49,4 +49,24 @@ class CatController extends Controller
             ]
         );
     }
+
+    public function edit(Cat $cat)
+    {
+        return view('formCat', ["cat" => $cat,"user"=>$cat->owner]);
+    }
+
+    public function update(Request $request,Cat $cat)
+    {
+        $request->validate([
+            'name' => 'required',
+            'birth_date' => 'required'
+        ]);
+
+        $cat->update([
+            'name' => $request->name,
+            'birth_date' => $request->birth_Date
+        ]);
+
+        return back()->with('status_success', 'Cat Updated!');
+    }
 }
