@@ -13,10 +13,10 @@ class CatController extends Controller
         $data = $cat->select("*")->join('users as owner', 'cats.owner_id', '=', 'owner.id');
         $ownerName = $request->owner;
         if ($request->has('cat_name') && $request->cat_name != "") {
-            $data->where('owner.name', 'like', '%' . urldecode($ownerName) . '%');
+            $data->where('cats.name', 'like', '%' . urldecode($ownerName) . '%');
         }
         if ($request->has('owner') && $request->owner != "") {
-            $data->orWhere('cats.name', 'like', '%' . urldecode($request->cat_name) . '%');
+            $data->orWhere('owner.name', 'like', '%' . urldecode($request->cat_name) . '%');
         }
 
         $data->with('owner');
