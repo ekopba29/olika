@@ -10,14 +10,17 @@ class CatController extends Controller
 {
     public function index(Request $request, Cat $cat)
     {
-        if ($request->has('cat_name') || $request->has('owner')) {
+        if ($request->has('cat_name')) {
             $ownerName = $request->owner;
             $data = $cat->join('users as owner','cats.owner_id','=','owner.id')
-                ->where('cats.name', 'like', '%' . urldecode($request->cat_name) . '%')
                 ->where('owner.name', 'like', '%' . urldecode($ownerName) . '%');
-        } else {
-            $data = $cat->with('owner');
         }
+        if ($request->has('owner')) {
+            $data = $cat->join('users as owner','cats.owner_id','=','owner.id')
+                ->where('cats.name', 'like', '%' . urldecode($request->cat_name) . '%');
+        }
+        
+        $data = $cat->with('owner');
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 
