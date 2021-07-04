@@ -29,14 +29,22 @@
     @php
     if ($datas != null) {
         $idOwner = [];
+        $idGroomer = [];
         foreach ($datas as $key => $item) {
-            $dt = ['id' => $item->owner->id, 'payment' => $item->payment, 'owner' => $item->owner->name, 'unique_number' => $item->owner->unique_number];
-            array_push($idOwner, $dt);
+            $dtOwner = ['id' => $item->owner->id, 'payment' => $item->payment, 'owner' => $item->owner->name, 'unique_number' => $item->owner->unique_number];
+            array_push($idOwner, $dtOwner);
+            $dtGroomer = ['id' => $item->groomer->id, 'groomer' => $item->groomer->name];
+            array_push($idGroomer, $dtGroomer);
         }
 
         $idOwnerGrouping = [];
         foreach ($idOwner as $key => $item) {
             $groupOwner[$item['id']][] = $item;
+        }
+        
+        $idGroomerGrouping = [];
+        foreach ($idGroomer as $key => $item) {
+            $groupGroomer[$item['id']][] = $item;
         }
     }
     @endphp
@@ -76,13 +84,74 @@
         </div>
     </div>
 
+    
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4>Report Summary</h4>
+                    <h4 class="text-danger">Report Crew</h4>
                     <div class="mb-3"></div>
                     <table class="table table1 table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Groomer</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @unless(!$datas)
+                            @isset($groupGroomer)
+                                @php
+                                    $no = 1;
+                                    @endphp
+                                    @php $totalAllGroomingan = 0; @endphp
+                                @foreach ($groupGroomer as $number => $data)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $data[0]['groomer'] }}</td>
+                                        <td>
+                                            @php
+                                                $totalGroomingan = 0;
+                                                foreach ($data as $key => $value) {
+                                                    $totalGroomingan = $totalGroomingan + 1;
+                                                    $totalAllGroomingan = $totalAllGroomingan + 1;
+                                                }
+                                            @endphp
+                                            {{ $totalGroomingan }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endunless
+                        </tbody>
+                        <tfoot class="bg-danger">
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{$totalAllGroomingan}}</td>
+                        </tfoot>
+                    @endunless
+
+                    </table>
+                    <p>
+                        @unless($datas)
+                        <h4 class="text-center">
+                            No Data
+                        </h4>
+                        <div class="mb-3"></div>
+                    @endunless
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-warning">Report Summary Customer</h4>
+                    <div class="mb-3"></div>
+                    <table class="table table2 table-responsive-sm">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -131,7 +200,7 @@
                                 @endforeach
                             @endunless
                         </tbody>
-                        <tfoot class="bg-navy">
+                        <tfoot class="bg-warning">
                             <td></td>
                             <td></td>
                             <td>Total</td>
@@ -159,9 +228,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4>Report Detail</h4>
+                    <h4 class="text-primary">Report Detail</h4>
                     <div class="mb-3"></div>
-                    <table class="table table2 table-responsive-sm">
+                    <table class="table table3 table-responsive-sm">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -232,6 +301,29 @@
                 "buttons": [{
                     extend: 'excelHtml5',
                     title: @php
+                        echo "'Crew Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
+                    @endphp,
+                }],
+                //  {
+                //     extend: 'pdfHtml5',
+                @php
+                //     echo "'Grooming Report " . date('d M Y', strtotime(Request::get('from'))) . 'To' . date('d M Y', strtotime(Request::get('to'))) . "'";
+                //
+                @endphp
+                // }],
+                "paging": false,
+                "info": false,
+
+            }).buttons().container().appendTo('#DataTables_Table_0_wrapper .col-md-6:eq(0)');
+
+            $(".table2").DataTable({
+                "responsive": true,
+                "search": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [{
+                    extend: 'excelHtml5',
+                    title: @php
                         echo "'Summary Report " . date('d M Y', strtotime(Request::get('from'))) . ' To ' . date('d M Y', strtotime(Request::get('to'))) . "'";
                     @endphp,
                 }],
@@ -245,9 +337,9 @@
                 "paging": false,
                 "info": false,
 
-            }).buttons().container().appendTo('#DataTables_Table_0_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#DataTables_Table_1_wrapper .col-md-6:eq(0)');
 
-            $(".table2").DataTable({
+            $(".table3").DataTable({
                 "responsive": true,
                 "search": false,
                 "lengthChange": false,
@@ -268,7 +360,7 @@
                 "paging": false,
                 "info": false,
 
-            }).buttons().container().appendTo('#DataTables_Table_1_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#DataTables_Table_2_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush
