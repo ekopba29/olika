@@ -26,13 +26,14 @@ Route::view('/', 'welcome');
 
 Auth::routes();
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','crew'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/addresser', [Addresser::class, 'getAddreser'])->name('addresser');
 
     Route::get('/customer/search', [CustomerController::class, 'search'])->name('customer.search');
     Route::get('/customer/generate_unique_id', [CustomerController::class, 'generateUniqueId'])->name('customer.generateUniqueId');
     Route::get('/customer/upgrade_to_member/{user}', [CustomerController::class, 'upgradeToMember'])->name('customer.upgradeToMember');
+    Route::post('/customer/setFreegroomingManual/{user}', [CustomerController::class, 'setFreegroomingManual'])->name('customer.setFreegroomingManual');
     Route::resource('/customer', CustomerController::class);
 
     Route::get('/crew/search', [CrewController::class, 'search'])->name('crew.search');

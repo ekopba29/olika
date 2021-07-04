@@ -19,7 +19,8 @@
                             </a>
                         @endif
                     </div>
-                    <div class="mb-3 table-responsive"></div>
+                    <div class="mb-3 "></div>
+                    <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
@@ -30,6 +31,9 @@
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th></th>
+                                @if (Auth::user()->level == "owner")
+                                <th>Free Grooming Manual</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -84,11 +88,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @if (Auth::user()->level == "owner")
+                                    <td>
+                                        <form method="POST" action={{route('customer.setFreegroomingManual',['user' => $user->id])}}>
+                                            @csrf
+                                            <input type="number" name="total" value="{{$user->freeGrooming->total ?? '0'}}">
+                                            <button type="submit">update</button>
+                                        </form>
+                                    </td>
+                                    @endif
                                 </tr>
                             @empty
                             @endforelse
                         </tbody>
                     </table>
+                    </div>
                     <p>
                         @if (count($users) < 1)
                             <h4 class="text-center">

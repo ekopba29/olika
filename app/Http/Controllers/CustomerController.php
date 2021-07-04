@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FreeGrooming;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -94,6 +95,17 @@ class CustomerController extends Controller
         $customer->update($this->validateCustomer($request, "update"));
 
         return back()->with('status_success', 'Customer Updated!');
+    }
+
+    public function setFreegroomingManual(Request $request,User $user)
+    {
+        if($user->level == "member" && Auth::user()->level == "owner"){
+            FreeGrooming::where("owner_id",$user->id)->update(["total"=>$request->total]);
+            return back()->with('status_success', 'FreeGrooming Updated!');
+        }
+        else {
+            return back()->with('status_error', 'Failed Update FreeGrooming!');
+        }
     }
 
     public function destroy(User $user)
