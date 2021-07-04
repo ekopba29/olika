@@ -101,11 +101,11 @@
                         </thead>
                         <tbody>
                         @unless(!$datas)
+                        @php
+                            $no = 1;
+                            $totalAllGroomingan = 0; 
+                        @endphp
                             @isset($groupGroomer)
-                                @php
-                                    $no = 1;
-                                    $totalAllGroomingan = 0; 
-                                @endphp
                                 @foreach ($groupGroomer as $number => $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
