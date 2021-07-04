@@ -50,7 +50,7 @@
                                 @forelse ($cats as $cat)
                                     <tr>
                                         <td>{{ $cat->name }}</td>
-                                        <td>{{ $cat->owner->name }}</td>
+                                        <td>{{ $cat->owner }}</td>
                                         <td>{{ date('d M Y',strtotime($cat->birth_date)) }}</td>
                                         <td>
                                             <a href={{ route('grooming.addBycat', ['cat' => $cat->id]) }}>

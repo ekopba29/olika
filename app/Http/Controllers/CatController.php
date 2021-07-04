@@ -10,7 +10,7 @@ class CatController extends Controller
 {
     public function index(Request $request, Cat $cat)
     {
-        $data = $cat->select("*")->join('users as owner', 'cats.owner_id', '=', 'owner.id');
+        $data = $cat->select("owner.name as owner","cats.*")->join('users as owner', 'cats.owner_id', '=', 'owner.id');
         $ownerName = $request->owner;
         if ($request->has('cat_name') && $request->cat_name != "") {
             $data->where('cats.name', 'like', '%' . urldecode($ownerName) . '%');
@@ -20,7 +20,6 @@ class CatController extends Controller
         }
 
         $data->with('owner');
-        dump($data->toSql());
         return view("listCat", ["cats" => $data->paginate(5)]);
     }
 
