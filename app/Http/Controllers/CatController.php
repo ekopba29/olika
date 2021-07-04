@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cat;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 
 class CatController extends Controller
 {
@@ -37,7 +38,9 @@ class CatController extends Controller
         Cat::create([
             'owner_id' => $request->owner, 'name' => request('name'), 'birth_date' => date('Y-m-d', strtotime($request->birth_date))
         ]);
-        return redirect(route('grooming.add', ['user' => $request->owner]))->with('status_success', 'Cat Added');
+        // return redirect(route('grooming.add', ['user' => $request->owner]))->with('status_success', 'Cat Added');
+        return Redirect::route('cat.createFor', ['user' => $user->id])->with('status_success', 'Cat Added!');
+
     }
 
     public function showBy(User $user)
