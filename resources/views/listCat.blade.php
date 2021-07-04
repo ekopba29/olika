@@ -1,7 +1,6 @@
 @extends('layouts.mainAdmin')
 
 @section('content')
-    <div class="fade-in">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -53,8 +52,14 @@
                                         <td>{{ $cat->owner }}</td>
                                         <td>{{ date('d M Y',strtotime($cat->birth_date)) }}</td>
                                         <td>
+                                            <a href={{ route('cat.edit', ['cat' => $cat->id]) }}>
+                                                <button class="btn bg-navy text-white btn-xs" cat-id={{ $cat->id }}
+                                                    id="storeGroomingBycat">
+                                                    Edit
+                                                </button>
+                                            </a>
                                             <a href={{ route('grooming.addBycat', ['cat' => $cat->id]) }}>
-                                                <button class="btn bg-danger text-white" cat-id={{ $cat->id }}
+                                                <button class="btn bg-danger btn-xs text-white" cat-id={{ $cat->id }}
                                                     id="storeGroomingBycat">
                                                     Grooming
                                                 </button>
@@ -77,5 +82,5 @@
                 </div>
             </div>
         </div>
-    </div>
+   
 @endsection

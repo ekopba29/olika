@@ -64,7 +64,7 @@ class CatController extends Controller
 
         $cat->update([
             'name' => $request->name,
-            'birth_date' => $request->birth_Date
+            'birth_date' => date('Y-m-d',strtotime($request->birth_date))
         ]);
 
         return back()->with('status_success', 'Cat Updated!');

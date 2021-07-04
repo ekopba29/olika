@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class CustomerController extends Controller
 {
@@ -57,13 +58,13 @@ class CustomerController extends Controller
                 ]);
             }
             DB::commit();
+            return Redirect::route('cat.createFor', ['user' => $user->id])->with('status_success', 'Customer Added!');
         } catch (\Exception $e) {
             // dd($e);
             DB::rollback();
             return back()->with('status_error', 'Add Customer Failed!');
         }
 
-        return back()->with('status_success', 'Customer Added!');
     }
 
     public function profile(User $user)

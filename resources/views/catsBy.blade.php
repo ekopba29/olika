@@ -30,8 +30,14 @@
                                 <td>{{ ++$no }}</td>
                                 <td>{{ $cat->name }}</td>
                                 <td>
+                                    <a href={{ route('cat.edit', ['cat' => $cat->id]) }}>
+                                        <button class="btn bg-navy text-white btn-xs" cat-id={{ $cat->id }}
+                                            id="storeGroomingBycat">
+                                            Edit
+                                        </button>
+                                    </a>
                                     <a href={{ route('grooming.addBycat', ['cat' => $cat->id]) }}>
-                                        <button class="btn bg-danger text-white" cat-id={{ $cat->id }}
+                                        <button class="btn bg-danger text-white btn-xs" cat-id={{ $cat->id }}
                                             id="storeGroomingBycat">
                                             Grooming
                                         </button>
