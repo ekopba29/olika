@@ -51,6 +51,7 @@
     {{ Request::get('range_report') }}
     <div class="row">
         <div class="col-lg-12">
+            <h1 class="text-center">{{ ucfirst($data->owner->name) }}</h1>
             <div class="card">
                 <div class="card-body">
                     <h4>Search</h4>
