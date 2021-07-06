@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Addresser;
+use App\Http\Controllers\BoardingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,10 @@ Route::middleware(['auth','crew'])->group(function () {
     Route::post('/cat/store_for/{user}', [CatController::class, 'storeFor'])->name('cat.storeFor');
     Route::get('/cat/show_by/{user}', [CatController::class, 'showBy'])->name('cat.showBy');
     Route::resource('cat', CatController::class)->except('create');
+
+    Route::get('/boarding/create/{user}', [BoardingController::class, 'create'])->name('boarding.create');
+    Route::post('/boarding/store/{user}', [BoardingController::class, 'store'])->name('boarding.store');
+    Route::resource('boarding', BoardingController::class)->except(['create','store']);
     
     Route::get('/delete/{idgrooming}', [GroomingController::class, "delete"])->name('grooming.delete');
     Route::get('/report_by/{user}', [GroomingController::class, "reportBy"])->name('grooming.reportBy');

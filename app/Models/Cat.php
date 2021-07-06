@@ -26,6 +26,11 @@ class Cat extends Model
         return $this->belongsTo(User::class,"owner_id");
     }
 
+    public function boarding()
+    {
+        return $this->hasMany(Boarding::class,"cat_id");
+    }
+
     public function grooming()
     {
         return $this->hasMany(Grooming::class);
