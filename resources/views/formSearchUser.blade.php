@@ -85,11 +85,11 @@
                     <!-- text input -->
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="member" name="level[]">
+                            <input class="form-check-input" type="radio" value="member" name="level">
                             <label class="form-check-label">Member</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="notmember" name="level[]">
+                            <input class="form-check-input" type="radio" value="notmember" name="level">
                             <label class="form-check-label">Not Member</label>
                         </div>
                     </div>
