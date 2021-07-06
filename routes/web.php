@@ -44,7 +44,9 @@ Route::middleware(['auth','crew'])->group(function () {
     Route::post('/cat/store_for/{user}', [CatController::class, 'storeFor'])->name('cat.storeFor');
     Route::get('/cat/show_by/{user}', [CatController::class, 'showBy'])->name('cat.showBy');
     Route::resource('cat', CatController::class)->except('create');
-
+    
+    Route::get('/delete/{idgrooming}', [GroomingController::class, "delete"])->name('grooming.delete');
+    Route::get('/report_by/{user}', [GroomingController::class, "reportBy"])->name('grooming.reportBy');
     Route::get('/add_grooming/{user}', [GroomingController::class, "addGrooming"])->name('grooming.add');
     Route::get('/add_grooming_by_cat/{cat}', [GroomingController::class, "addGroomingByCat"])->name('grooming.addBycat');
     Route::post('/store_grooming/{user}', [GroomingController::class, "storeGrooming"])->name('grooming.store');

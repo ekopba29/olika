@@ -7,6 +7,7 @@ use App\Models\FreeGrooming;
 use App\Models\Grooming;
 use App\Models\SettingFreeGrooming;
 use App\Models\User;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Request as FacedesRequest;
@@ -188,17 +189,105 @@ class GroomingController extends Controller
     {
         if ($request->has(['from', 'to'])) {
             $grooming = $grooming
-            // ->whereBetween('grooming_at', [
-            //     date('Y-m-d', strtotime($request->from)),
-            //     date('Y-m-d', strtotime($request->to))
-            // ])->get()
-            ->whereDate('grooming_at', '>=' ,date('Y-m-d', strtotime($request->from)) )
-            ->whereDate('grooming_at', '<=' , date('Y-m-d', strtotime($request->to)) )
-            ->orderBy('grooming_at','desc')
-            ->get();
+                // ->whereBetween('grooming_at', [
+                //     date('Y-m-d', strtotime($request->from)),
+                //     date('Y-m-d', strtotime($request->to))
+                // ])->get()
+                ->whereDate('grooming_at', '>=', date('Y-m-d', strtotime($request->from)))
+                ->whereDate('grooming_at', '<=', date('Y-m-d', strtotime($request->to)))
+                ->orderBy('grooming_at', 'desc')
+                ->get();
         } else {
             $grooming = null;
         }
         return view('GroomingReport', ["datas" => $grooming]);
+    }
+
+    public function reportBy(HttpRequest $request, User $user)
+    {
+        if ($request->has(['from', 'to'])) {
+
+            $grooming = Grooming::where('owner_id', $user->id)->with('owner')
+                // $grooming = $user->with('groomingsCustomer')
+                // ->whereBetween('grooming_at', [
+                //     date('Y-m-d', strtotime($request->from)),
+                //     date('Y-m-d', strtotime($request->to))
+                // ])->get()
+                ->whereDate('grooming_at', '>=', date('Y-m-d', strtotime($request->from)))
+                ->whereDate('grooming_at', '<=', date('Y-m-d', strtotime($request->to)))
+                ->orderBy('grooming_at', 'desc')
+                ->get();
+        } else {
+            $grooming = null;
+        }
+        return view('GroomingReportBy', ["datas" => $grooming]);
+    }
+
+    public function delete(HttpRequest $request, Grooming $idgrooming)
+    {
+
+        if ($idgrooming->accumulated_free_grooming == "y") {
+            // $pengganti = Grooming::where('owner_id', $idgrooming->id)->where('accumulated_free_grooming','n')->where('payment','!=','free')->first();
+            // if ($pengganti == null) {
+            // $recalculate = $this->recalculateFreeGroomingAfterDelete($idgrooming);
+
+
+            // }
+            // else{
+            //     $pengganti->update([
+            //         'accumulated_free_grooming' => 'y'
+            //     ]);
+            // }
+        }
+
+        if ($idgrooming->accumulated_free_grooming != "y") {
+            $idgrooming->delete();
+            return back()->with('status_success', 'Data Grooming Deleted');
+        }
+        else {
+            return back()->with('status_error_custom', 'Failed Delete');
+        }
+        // dd($idgrooming);
+        // $delete = Grooming::delete($request->segment(2));
+        // return back()->with('status_success','Data Grooming Deleted');
+    }
+
+    private function recalculateFreeGroomingAfterDelete($idgrooming)
+    {
+        DB::beginTransaction();
+        try {
+            // free grooming dikurangi 1
+            $dataFreeGrooming = FreeGrooming::where('owner_id', $idgrooming->owner_id)->first();
+            $total = $dataFreeGrooming->total;
+            $dataFreeGrooming->update(["total" => $total - 1]);
+
+            // ambil free grooming yang sekelompok dengan yang dihapus barusan dan update accumulated = "n"
+            // kemudian recalculate freegrooming
+            // update hasil recalculte yang terakumulasi ke "CCUMULATE FREE GROOMING = Y"
+            Grooming::where('owner_id', $idgrooming->owner_id)->where('updated_at', $dataFreeGrooming->updated_at)->update(['accumulated_free_grooming' => 'n']);
+            $dataGroomingBelumdiakumulasi = Grooming::where('owner_id', $idgrooming->owner_id)->where('accumulated_free_grooming', 'n')->where('payment','!=', 'free');
+            
+            $settingFree = SettingFreeGrooming::latest()->first()->minimum_grooming;
+            $dataGroomingCalonAkumulasi = $dataGroomingBelumdiakumulasi->count();
+            $sisaAkumulasi = $dataGroomingBelumdiakumulasi->count() % $settingFree;
+            $totalLoop = $dataGroomingCalonAkumulasi - $sisaAkumulasi;
+            foreach($dataGroomingBelumdiakumulasi->get() as $no => $dt){
+                $dt->update(['accumulated_free_grooming' => 'y']);
+                $totalLoop = $totalLoop - 1 ;
+                if($totalLoop == 0) {
+                    break;
+                }
+            }
+            
+            $dataFreeGrooming->update(["total" => floor($totalLoop / 10) + $total]);
+            dump($dataGroomingBelumdiakumulasi,$sisaAkumulasi,floor($totalLoop / 10) + $total);
+            die();
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            // dd($e);
+            return false;
+        }
     }
 }

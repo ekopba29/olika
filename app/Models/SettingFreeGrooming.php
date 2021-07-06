@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SettingFreeGrooming extends Model
 {
+    protected $fillable = ['minimum_grooming'];
     use HasFactory;
 }

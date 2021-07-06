@@ -71,9 +71,13 @@
                                                     <a class="dropdown-item"
                                                         href={{ route('cat.showBy', ['user' => $user->id]) }}>Cat
                                                         List</a>
-                                                    <a class="dropdown-item"
+                                                        <a class="dropdown-item"
                                                         href={{ route('grooming.add', ['user' => $user->id]) }}>
                                                         Grooming
+                                                    </a>
+                                                    <a class="dropdown-item"
+                                                        href={{ route('grooming.reportBy', ['user' => $user->id]) }}>
+                                                        Report
                                                     </a>
                                                 @endif
                                                 @if ($user->level == 'notmember')
