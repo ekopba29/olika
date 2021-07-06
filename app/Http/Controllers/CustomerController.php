@@ -51,12 +51,12 @@ class CustomerController extends Controller
         DB::beginTransaction();
         try {
             $user = User::create($valid);
-            if ($request->level == "member" || $request->level == "crew" || $request->level == "owner") {
+            // if ($request->level == "member" || $request->level == "crew" || $request->level == "owner") {
                 FreeGrooming::create([
                     'owner_id' => $user->id,
                     'total' => 0
                 ]);
-            }
+            // }
             DB::commit();
             return Redirect::route('cat.createFor', ['user' => $user->id])->with('status_success', 'Customer Added!');
         } catch (\Exception $e) {
