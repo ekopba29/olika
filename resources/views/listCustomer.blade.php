@@ -101,7 +101,7 @@
                                             </div>
                                         </td>
                                         @if (Auth::user()->level == 'owner')
-                                            <td>
+                                            <td class="text-right">
                                                 <form method="POST"
                                                     action={{ route('customer.setFreegroomingManual', ['user' => $user->id]) }}>
                                                     @csrf
