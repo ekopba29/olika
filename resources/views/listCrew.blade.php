@@ -57,6 +57,10 @@
                                                             href={{ route('grooming.add', ['user' => $user->id]) }}>
                                                             Grooming
                                                         </a>
+                                                        <a class="dropdown-item"
+                                                            href={{ route('grooming.reportBy', ['user' => $user->id]) }}>
+                                                            Report
+                                                        </a>
                                                     @endif
                                                     <a href={{ route('cat.createFor', ['user' => $user->id]) }}
                                                         class="dropdown-item">
