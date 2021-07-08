@@ -220,7 +220,7 @@ class GroomingController extends Controller
         } else {
             $grooming = null;
         }
-        return view('GroomingReportBy', ["datas" => $grooming]);
+        return view('GroomingReportBy', ["datas" => $grooming, "user" => $user]);
     }
 
     public function delete(HttpRequest $request, Grooming $idgrooming)
