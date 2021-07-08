@@ -24,6 +24,10 @@ class Grooming extends Model
         'accumulated_free_grooming'
     ];
 
+    public function groomType()
+    {
+        return $this->belongsTo(GroomingType::class);
+    }
     public function owner () {
         return $this->belongsTo(User::class,"owner_id");
     }

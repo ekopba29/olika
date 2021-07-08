@@ -10,7 +10,7 @@ use App\Http\Controllers\CrewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\GroomingController;
-
+use App\Http\Controllers\GroomingTypesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +46,7 @@ Route::middleware(['auth','crew'])->group(function () {
     Route::get('/cat/show_by/{user}', [CatController::class, 'showBy'])->name('cat.showBy');
     Route::resource('cat', CatController::class)->except('create');
 
+    
     Route::get('/boarding/create/{user}', [BoardingController::class, 'create'])->name('boarding.create');
     Route::post('/boarding/store/{user}', [BoardingController::class, 'store'])->name('boarding.store');
     Route::resource('boarding', BoardingController::class)->except(['create','store']);
@@ -57,6 +58,8 @@ Route::middleware(['auth','crew'])->group(function () {
     Route::post('/store_grooming/{user}', [GroomingController::class, "storeGrooming"])->name('grooming.store');
     Route::post('/store_grooming_bycat/{cat}', [GroomingController::class, "storeGroomingByCat"])->name('grooming.storeBycat');
     Route::get('/grooming_report', [GroomingController::class, "report"])->name('grooming.report');
+    
+    Route::resource('grooming_type', GroomingTypesController::class);
 });
 
 Route::view('/ui', 'ui');

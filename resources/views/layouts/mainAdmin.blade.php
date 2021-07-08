@@ -50,6 +50,12 @@
                                 Grooming Reports
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href={{ route('grooming_type.index') }} class="nav-link">
+                                <i class="nav-icon fa fa-viruses"></i>
+                                Grooming Types
+                            </a>
+                        </li>
                     </ul>
 
                 </div>
