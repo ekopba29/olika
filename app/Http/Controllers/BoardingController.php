@@ -49,8 +49,8 @@ class BoardingController extends Controller
         $datetime1 = new DateTime($request->in);
         $datetime2 = new DateTime($request->out);
         $interval = $datetime1->diff($datetime2)->d;
-        if ($interval < 10) {
-            return back()->with('status_error_custom', 'Minimum 10 days in Onawa')->withInput();
+        if ($interval != 10) {
+            return back()->with('status_error_custom', 'Minimum/Maximum 10 days in Onawa')->withInput();
         }
         DB::beginTransaction();
         try {
@@ -58,6 +58,7 @@ class BoardingController extends Controller
                 'inputter_id' => Auth::user()->id,
                 'owner_id' => $request->owner,
                 'cat_id' => $request->cat,
+                'freegrooming_used' => 'n',
                 'in' => date('Y-m-d',strtotime($request->in)),
                 'out' => date('Y-m-d',strtotime($request->out)),
             ]);
@@ -66,7 +67,7 @@ class BoardingController extends Controller
             $updatedTotal = $totalFreeGrooming + floor($interval / 10);
             FreeGrooming::where('owner_id', $request->owner)->update(['total' => $updatedTotal]);
             DB::commit();
-            return back()->with('status_success', 'Success Add Boarding, Bonus ' . floor($interval / 10) . ' Free Grooming ( ' . $updatedTotal . ' )');
+            return  redirect(route('grooming.addBycat', ['cat' => $request->cat]))->with('status_success', 'Success Add Boarding, Bonus ' . floor($interval / 10) . ' Free Grooming ( ' . $updatedTotal . ' )');
         } catch (\Exception $e) {
             DB::rollback();
             // dd($e);

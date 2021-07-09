@@ -58,6 +58,8 @@ Route::middleware(['auth','crew'])->group(function () {
     Route::post('/store_grooming/{user}', [GroomingController::class, "storeGrooming"])->name('grooming.store');
     Route::post('/store_grooming_bycat/{cat}', [GroomingController::class, "storeGroomingByCat"])->name('grooming.storeBycat');
     Route::get('/grooming_report', [GroomingController::class, "report"])->name('grooming.report');
+    Route::get('/grooming/{idgrooming}/edit ', [GroomingController::class, "edit"])->name('grooming.edit');
+    Route::put('/grooming/{idgrooming}', [GroomingController::class, "update"])->name('grooming.update');
     
     Route::resource('grooming_type', GroomingTypesController::class);
 });

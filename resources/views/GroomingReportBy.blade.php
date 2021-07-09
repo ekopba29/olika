@@ -239,6 +239,7 @@
                                 <th>Owner</th>
                                 <th>Cat Name</th>
                                 <th>Groomer</th>
+                                <th>Groome Type</th>
                                 <th>Payment</th>
                                 <th>Grooming Date</th>
                                 <th>Accumulated Free</th>
@@ -257,18 +258,22 @@
                                         <td>{{ ucfirst($data->cat->name) }}</td>
                                         {{-- <td>{{ $user->username }}</td> --}}
                                         <td>{{ ucfirst($data->groomer->name) }}</td>
+                                        <td>{{ ucfirst($data->groomType->grooming_name) }} Rp. {{ number_format($data->payment_price, 0, ',', '.')}}</td>
                                         <td>{{ ucfirst($data->payment) }}</td>
                                         <td>{{ date('d M Y H:i', strtotime($data->grooming_at)) }}</td>
                                         <td>{{$data->accumulated_free_grooming}}</td>
-                                    @if (Auth::user()->level == "owner")
-                                        <td>
-                                            @if ($data->accumulated_free_grooming != "y")
-                                            <a route={{route('grooming.delete',['idgrooming'=>$data->id])}} owner="{{ucfirst($data->owner->name)}}" cat="{{$data->cat->name}}" accumulated="{{$data->accumulated_free_grooming}}" onclick="confrimDelete(this)">
-                                                <button class="btn btn-warning btn-xs">Delete</button>        
-                                            </a>
-                                            @endif
-                                        </td>
-                                    @endif
+                                        @if (Auth::user()->level == "owner")
+                                            <td>
+                                                @if ($data->accumulated_free_grooming != "y")
+                                                <a route={{route('grooming.delete',['idgrooming'=>$data->id])}} owner="{{ucfirst($data->owner->name)}}" cat="{{$data->cat->name}}" accumulated="{{$data->accumulated_free_grooming}}" onclick="confrimDelete(this)">
+                                                    <button class="btn btn-danger btn-xs">Delete</button>        
+                                                </a>
+                                                @endif
+                                                <a href={{route('grooming.edit',['idgrooming'=>$data->id])}}>
+                                                    <button class="btn btn-warning btn-xs">Edit</button>        
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @endunless

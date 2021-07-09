@@ -23,7 +23,9 @@ class Grooming extends Model
         'grooming_at',
         'accumulated_free_grooming',
         'payment_price',
-        'groomingtype_id'
+        'groomingtype_id',
+        'freegrooming_group',
+        'freegrooming_boarding_id'
     ];
 
     public function groomType()

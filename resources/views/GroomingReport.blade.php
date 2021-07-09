@@ -238,6 +238,7 @@
                                 <th>Owner</th>
                                 <th>Cat Name</th>
                                 <th>Groomer</th>
+                                <th>Grooming Type</th>
                                 <th>Payment</th>
                                 <th>Grooming Date</th>
                             </tr>
@@ -252,6 +253,7 @@
                                         <td>{{ ucfirst($data->cat->name) }}</td>
                                         {{-- <td>{{ $user->username }}</td> --}}
                                         <td>{{ ucfirst($data->groomer->name) }}</td>
+                                        <td>{{ ucfirst($data->groomType->grooming_name ?? "-") }} Rp. {{ number_format($data->payment_price, 0, ',', '.')}}</td>
                                         <td>{{ ucfirst($data->payment) }}</td>
                                         <td>{{ date('d M Y H:i', strtotime($data->grooming_at)) }}</td>
                                     </tr>

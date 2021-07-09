@@ -11,7 +11,7 @@ class Boarding extends Model
     use HasFactory;
 
     protected $fillable = [
-        'in','out','owner_id','inputter_id','cat_id'
+        'in','out','owner_id','inputter_id','cat_id','freegrooming_used'
     ];
 
     public function owner()
