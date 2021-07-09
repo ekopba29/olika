@@ -11,67 +11,94 @@
                             <p></p>
                             <div class="card-body">
                                 <form id='form-grooming' method="POST"
-                                    action={{ route('grooming.store', [
-    'user' => Request::segment(2),
-]) }}>
+                                    action={{ route('grooming.store', ['user' => Request::segment(2)]) }}>
                                     <div class="row">
                                         @csrf
-                                        <div class=" col-sm-12 col-lg-3">
-                                            <label>
-                                                Customer :
-                                            </label>
-                                            <h5>{{ $user->name }}</h5>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-2">
-                                            <label>
-                                                Free Grooming :
-                                            </label>
-                                            <h5>{{ $freeGrooming }}</h5>
-                                        </div>
-                                        <div class=" col-sm-12 col-lg-2">
-                                            <div class="form-group">
-                                                <label for="groomer">Groomer</label>
-                                                <select class="form-control" id="groomer" name="groomer" required>
-                                                    <option></option>
-                                                    @foreach ($groomers as $groomer)
-                                                        <option value={{ $groomer->id }}
-                                                            {{ old('groomer') == $groomer->id ? 'selected' : '' }}>
-                                                            {{ $groomer->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="col-sm-12 col-lg-12 d-flex">
+                                            <div class=" col-sm-12 col-lg-6 d-flex justify-content-end m-3">
+                                                <div>
+                                                    <label>
+                                                        Customer :
+                                                    </label>
+                                                    <h2 class="text-danger">{{ $user->name }}</h2>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6 d-flex justify-content-start m-3">
+                                                <div>
+                                                    <label>
+                                                        Free Grooming :
+                                                    </label>
+                                                    <h2 class="text-right text-orange">{{ $freeGrooming }}</h2>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="d-none">
-                                            <div class="form-group">
-                                                <label for="groomer">Cat</label>
-                                                <input id="cat-id" name="cat" value="{{ old('cat') }}">
-                                                <input id="owner" name="owner" value="{{ $user->id }}">
+                                        <div class="d-flex col-lg-12 justify-content-around">
+                                            <div class=" col-sm-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="groomer">Groomer</label>
+                                                    <select class="form-control" id="groomer" name="groomer" required>
+                                                        <option></option>
+                                                        @foreach ($groomers as $groomer)
+                                                            <option value={{ $groomer->id }}
+                                                                {{ old('groomer') == $groomer->id ? 'selected' : '' }}>
+                                                                {{ $groomer->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <div class="form-group">
-                                                <label for="groomer">Date</label>
-                                                <input id="groom_date" name="groom_date" class="groom_date form-control" value="{{ old('groom_date') ?? now() }}">
+                                            <div class="d-none">
+                                                <div class="form-group">
+                                                    <label for="groomer">Cat</label>
+                                                    <input id="cat-id" name="cat" value="{{ old('cat') }}">
+                                                    <input id="owner" name="owner" value="{{ $user->id }}">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class=" col-sm-12 col-lg-2">
-                                            <div class="form-group">
-                                                <label for="groomer">Payment</label>
-                                                <select class="form-control" id="payment" name="payment" required>
-                                                    <option></option>
-                                                    @if ($freeGrooming > 0 || in_array($user->level, ['owner', 'crew']))
-                                                        <option value="free"
-                                                            {{ old('payment') == 'free' ? 'selected' : '' }}>From Free
-                                                            Grooming</option>
-                                                    @endif
-                                                    <option value="cash"
-                                                        {{ old('payment') == 'cash' ? 'selected' : '' }}>Cash</option>
-                                                    <option value="debit"
-                                                        {{ old('payment') == 'debit' ? 'selected' : '' }}>Debit</option>
-                                                    <option value="credit"
-                                                        {{ old('payment') == 'credit' ? 'selected' : '' }}>Credit
-                                                    </option>
-                                                </select>
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="groomer">Date</label>
+                                                    <input id="groom_date" name="groom_date" class="groom_date form-control"
+                                                        value="{{ old('groom_date') ?? now() }}">
+                                                </div>
+                                            </div>
+                                            <div class=" col-sm-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="groomer">Grooming Type</label>
+                                                    <select class="form-control" id="groomingType" name="grooming_type" required>
+                                                        <option></option>
+                                                        @foreach ($groomingType as $itemType)
+                                                            <option 
+                                                            price="Rp. {{ number_format($itemType->price, 0, ',', '.')}}"
+                                                            allow-free={{ $itemType->allow_free }}
+                                                            grooming-name="{{ $itemType->grooming_name }}"
+                                                            value="{{ $itemType->id }}"
+                                                                {{ old('grooming_type') == $itemType->id ? 'selected' : '' }}>
+                                                                {{ $itemType->grooming_name }} || Rp. {{ number_format($itemType->price, 0, ',', '.')}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class=" col-sm-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="groomer">Payment</label>
+                                                    <select class="form-control" id="payment" name="payment" required>
+                                                        <option></option>
+                                                        @if ($freeGrooming > 0 || in_array($user->level, ['owner', 'crew']))
+                                                            <option value="free"
+                                                                {{ old('payment') == 'free' ? 'selected' : '' }}>From
+                                                                Free
+                                                                Grooming</option>
+                                                        @endif
+                                                        <option value="cash"
+                                                            {{ old('payment') == 'cash' ? 'selected' : '' }}>Cash
+                                                        </option>
+                                                        <option value="debit"
+                                                            {{ old('payment') == 'debit' ? 'selected' : '' }}>Debit
+                                                        </option>
+                                                        <option value="credit"
+                                                            {{ old('payment') == 'credit' ? 'selected' : '' }}>Credit
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +148,7 @@
 @endsection
 
 @push('third_party_scripts')
-    <script src="{{ asset('js/jquery.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
 
     <script>
         $(function() {

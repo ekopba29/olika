@@ -21,12 +21,14 @@ class Grooming extends Model
         'payment',
         'inputer_id',
         'grooming_at',
-        'accumulated_free_grooming'
+        'accumulated_free_grooming',
+        'payment_price',
+        'groomingtype_id'
     ];
 
     public function groomType()
     {
-        return $this->belongsTo(GroomingType::class);
+        return $this->belongsTo(GroomingType::class,"groomingtype_id");
     }
     public function owner () {
         return $this->belongsTo(User::class,"owner_id");
@@ -45,7 +47,8 @@ class Grooming extends Model
     }
 
     public function cat () {
-        return $this->belongsTo(Cat::class);
+        return $this->belongsTo(Cat::class,"cat_id");
+        // return $this->belongsTo(Cat::class);
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cat;
 use App\Models\FreeGrooming;
 use App\Models\Grooming;
+use App\Models\GroomingType;
 use App\Models\SettingFreeGrooming;
 use App\Models\User;
 use GuzzleHttp\Psr7\Request;
@@ -39,6 +40,8 @@ class GroomingController extends Controller
                 "owner_id" => $OwnerId,
                 "cat_id" => $request->cat,
                 "groomer_id" => $request->groomer,
+                "groomingtype_id" => $request->grooming_type,
+                "payment_price" => GroomingType::where('id',$request->grooming_type)->first()->price,
                 "inputer_id" => Auth::id(),
                 "grooming_at" => $request->groom_date,
                 "accumulated_free_grooming" => 'n',
@@ -56,7 +59,8 @@ class GroomingController extends Controller
             return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('status_error', 'Register Grooming Failed');
+            dd($e);
+            return back()->with('status_error', 'Register Grooming Failed')->withInput();
         }
     }
 
@@ -73,6 +77,8 @@ class GroomingController extends Controller
                 "cat_id" => $catId,
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
+                "groomingtype_id" => $request->grooming_type,
+                "payment_price" => GroomingType::where('id',$request->grooming_type)->first()->price,
                 "grooming_at" =>  $request->groom_date,
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
@@ -89,7 +95,7 @@ class GroomingController extends Controller
             return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('status_error', 'Register Grooming Failed');
+            return back()->with('status_error', 'Register Grooming Failed')->withInput();
         }
     }
 
@@ -122,6 +128,7 @@ class GroomingController extends Controller
     {
         $request->validate([
             "groomer" => ["required", "exists:users,id"],
+            "grooming_type" => ["required"],
             "payment" => [
                 "required",
                 Rule::in(['cash', 'debit', 'credit', 'free']),
@@ -129,16 +136,18 @@ class GroomingController extends Controller
                     $idUser = $request->owner;
                     // cek ketersediaan free, jika customer owner / crew tidak ada pengecekan 
                     if ($payment === 'free') {
-
-                        $level = User::find($idUser)->first()->level ?? $fail('User Not Found');
-
+                        $level = User::where('id',$idUser)->first()->level ?? $fail('User Not Found');
                         if (!in_array($level, ["owner", "crew"])) {
                             $totalFree = FreeGrooming::where("owner_id", $idUser)->first();
-
+                            // cek member atau bukan
                             $totalFree->total ?? $fail('Customer Not an Member');
-
+                            // cek ketersediaan free grooming
                             if ($totalFree->total < 1) {
                                 $fail('Free Grooming is Empty.');
+                            }
+                            $allow_free = GroomingType::where('id',$request->grooming_type)->first();
+                            if($allow_free->allow_free == "n") {
+                                $fail('Grooming type ' . $allow_free->grooming_name . ' not available for free.');
                             }
                         }
                     }
@@ -156,7 +165,8 @@ class GroomingController extends Controller
             "user" => $user,
             "cats" => $user->cats,
             "freeGrooming" => $user->freeGrooming->total ?? 0,
-            "groomers" => User::whereIn("level", ["owner", "crew"])->get()
+            "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
+            "groomingType" => GroomingType::get()
         ]);
     }
 
@@ -165,8 +175,9 @@ class GroomingController extends Controller
         return view("formAddGroomingByCat", [
             "datas" => $cat,
             "user" => $cat->owner,
-            "freeGrooming" => $cat->users->freeGrooming->total ?? 0,
-            "groomers" => User::whereIn("level", ["owner", "crew"])->get()
+            "freeGrooming" => $cat->owner->freeGrooming->total ?? 0,
+            "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
+            "groomingType" => GroomingType::get()
         ]);
     }
 

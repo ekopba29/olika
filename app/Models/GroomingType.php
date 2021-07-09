@@ -17,6 +17,6 @@ class GroomingType extends Model
     
     public function groomings()
     {
-        return $this->hasMany(Grooming::class,"groomtype_id");
+        return $this->hasMany(Grooming::class,"groomingtype_id");
     }
 }

@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="card-title"> Add Grooming</h4>
+                            <h3> Add Grooming</h3>
                             <p></p>
                             <div class="card-body">
                                 <form id='form-grooming' method="POST"
@@ -60,6 +60,23 @@
                                             <div class="form-group">
                                                 <label for="groomer">Date</label>
                                                 <input id="groom_date" name="groom_date" class="groom_date form-control" value="{{ old('groom_date') ?? now() }}">
+                                            </div>
+                                        </div>
+                                        <div class=" col-sm-12 col-lg-3">
+                                            <div class="form-group">
+                                                <label for="groomer">Grooming Type</label>
+                                                <select class="form-control" id="groomingType" name="grooming_type" required>
+                                                    <option></option>
+                                                    @foreach ($groomingType as $itemType)
+                                                        <option 
+                                                        price="Rp. {{ number_format($itemType->price, 0, ',', '.')}}"
+                                                        allow-free={{ $itemType->allow_free }}
+                                                        grooming-name="{{ $itemType->grooming_name }}"
+                                                        value="{{ $itemType->id }}"
+                                                            {{ old('grooming_type') == $itemType->id ? 'selected' : '' }}>
+                                                            {{ $itemType->grooming_name }} || Rp. {{ number_format($itemType->price, 0, ',', '.')}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class=" col-sm-12 col-lg-3">
