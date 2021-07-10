@@ -43,7 +43,7 @@ class GroomingController extends Controller
                 "cat_id" => $request->cat,
                 "groomer_id" => $request->groomer,
                 "groomingtype_id" => $request->grooming_type,
-                "payment_price" => GroomingType::where('id', $request->grooming_type)->first()->price,
+                "payment_price" => $request->payment != "free" ? GroomingType::where('id', $request->grooming_type)->first()->price : 0,
                 "inputer_id" => Auth::id(),
                 "grooming_at" => $request->groom_date,
                 "accumulated_free_grooming" => 'n',
@@ -79,7 +79,7 @@ class GroomingController extends Controller
                 "groomer_id" => $request->groomer,
                 "inputer_id" => Auth::id(),
                 "groomingtype_id" => $request->grooming_type,
-                "payment_price" => GroomingType::where('id', $request->grooming_type)->first()->price,
+                "payment_price" => $request->payment != "free" ? GroomingType::where('id', $request->grooming_type)->first()->price : 0,
                 "grooming_at" =>  $request->groom_date,
                 "accumulated_free_grooming" => 'n',
                 "payment" => $request->payment,
@@ -222,7 +222,7 @@ class GroomingController extends Controller
             'groom_date' => 'required|date_format:Y-m-d',
         ]));
 
-        if ($idgrooming->groomingtype_id != $request->grooming_type){
+        if ($idgrooming->groomingtype_id != $request->grooming_type && $idgrooming->payment != "free"){
             $idgrooming->update([
                 'grooming_at' => $request->groom_date,
                 'cat_id' => $request->cat,
