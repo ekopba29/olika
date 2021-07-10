@@ -188,7 +188,7 @@ class GroomingController extends Controller
             "cats" => $user->cats,
             "freeGrooming" => $user->freeGrooming->total ?? 0,
             "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
-            "groomingType" => GroomingType::orderBy()->get()
+            "groomingType" => GroomingType::orderBy('grooming_name','desc')->get()
         ]);
     }
 
