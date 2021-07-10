@@ -215,20 +215,30 @@ class GroomingController extends Controller
 
     public function update(HttpRequest $request, Grooming $idgrooming)
     {
-        $request->validate([
+        $idgrooming->update($request->validate([
             'cat' => 'required',
             'grooming_type' => 'required',
             'groomer' => 'required',
             'groom_date' => 'required|date_format:Y-m-d',
-        ]);
+        ]));
 
-        $idgrooming->update([
-            'grooming_at' => $request->groom_date,
-            'cat_id' => $request->cat,
-            'payment_price' => GroomingType::where('id', $request->grooming_type)->first()->price,
-            'groomer_id' => $request->groomer,
-            'groomingtype_id' => $request->grooming_type
-        ]);
+        if ($idgrooming->groomingtype_id != $request->grooming_type){
+            $idgrooming->update([
+                'grooming_at' => $request->groom_date,
+                'cat_id' => $request->cat,
+                'payment_price' => GroomingType::where('id', $request->grooming_type)->first()->price,
+                'groomer_id' => $request->groomer,
+                'groomingtype_id' => $request->grooming_type
+            ]);
+        }
+        else {
+            $idgrooming->update([
+                'grooming_at' => $request->groom_date,
+                'cat_id' => $request->cat,
+                'groomer_id' => $request->groomer,
+                'groomingtype_id' => $request->grooming_type
+            ]);
+        }
 
         return back()->with('status_success', 'Grooming Updated!')->withInput();
         // $idgrooming->update();
