@@ -95,7 +95,7 @@ class GroomingController extends Controller
             return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('status_error_custom', 'Register Grooming Failed '.$e->getMessage())->withInput();
+            return back()->with('status_error_custom', 'Register Grooming Failed ' . $e->getMessage())->withInput();
         }
     }
 
@@ -107,14 +107,18 @@ class GroomingController extends Controller
             case 'decrease':
                 $freeGrooming->update(["total" => $freeGrooming->total - 1]);
 
-                $boarding = Boarding::where('cat_id',$groomingDt->cat_id)->where('freegrooming_used','n')->first();
+                // untuk owner/crew skip proses akumulasi freegrooming
+                if (in_array($groomingDt->owner->level, ['owner', 'crew'])) {
+                    return true;
+                }
+
+                $boarding = Boarding::where('cat_id', $groomingDt->cat_id)->where('freegrooming_used', 'n')->first();
                 // pakai free grooming dari boarding
                 if ($boarding) {
                     $boarding->update(['freegrooming_used' => 'y']);
-                    Grooming::where('id',$groomingDt->id)->update(['freegrooming_boarding_id'=>$boarding->id]);
+                    Grooming::where('id', $groomingDt->id)->update(['freegrooming_boarding_id' => $boarding->id]);
                     // dd($boarding->id);
-                }
-                else {
+                } else {
                     $getGroupGrooming = Grooming::where(
                         [
                             'accumulated_free_grooming' => "y",
@@ -122,12 +126,12 @@ class GroomingController extends Controller
                             'owner_id' => $OwnerId
                         ]
                     )->where('payment', '!=', 'free')->take($minimumFreeGrooming)->first();
-                    if(!isset( $getGroupGrooming->freegrooming_group)) {
+                    if (!isset($getGroupGrooming->freegrooming_group)) {
                         // data grooming tidak memenuhi kalkulasi minimal grooming
                         throw new \Exception('Free Grooming Not Accepted');
                     }
-                    FreeGroomingUsage::create(['grooming_id' => $groomingDt,'freegrooming_group' => $getGroupGrooming->freegrooming_group]);
-                    Grooming::where('freegrooming_group',$getGroupGrooming->freegrooming_group)->update(['freegrooming_used' => 'y']);
+                    FreeGroomingUsage::create(['grooming_id' => $groomingDt, 'freegrooming_group' => $getGroupGrooming->freegrooming_group]);
+                    Grooming::where('freegrooming_group', $getGroupGrooming->freegrooming_group)->update(['freegrooming_used' => 'y']);
                 }
                 break;
 
@@ -188,7 +192,7 @@ class GroomingController extends Controller
             "cats" => $user->cats,
             "freeGrooming" => $user->freeGrooming->total ?? 0,
             "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
-            "groomingType" => GroomingType::orderBy('grooming_name','desc')->get() 
+            "groomingType" => GroomingType::orderBy('grooming_name', 'desc')->get()
         ]);
     }
 
@@ -222,7 +226,7 @@ class GroomingController extends Controller
             'groom_date' => 'required|date_format:Y-m-d',
         ]));
 
-        if ($idgrooming->groomingtype_id != $request->grooming_type){
+        if ($idgrooming->groomingtype_id != $request->grooming_type) {
             $idgrooming->update([
                 'grooming_at' => $request->groom_date,
                 'cat_id' => $request->cat,
@@ -230,8 +234,7 @@ class GroomingController extends Controller
                 'groomer_id' => $request->groomer,
                 'groomingtype_id' => $request->grooming_type
             ]);
-        }
-        else {
+        } else {
             $idgrooming->update([
                 'grooming_at' => $request->groom_date,
                 'cat_id' => $request->cat,
