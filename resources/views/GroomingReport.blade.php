@@ -256,6 +256,13 @@
                                         <td>{{ ucfirst($data->groomType->grooming_name ?? "-") }} Rp. {{ number_format($data->payment_price, 0, ',', '.')}}</td>
                                         <td>{{ ucfirst($data->payment) }}</td>
                                         <td>{{ date('d M Y H:i', strtotime($data->grooming_at)) }}</td>
+                                        @if (Auth::user()->level == "owner")
+                                            <td>
+                                                <a href={{route('grooming.edit',['idgrooming'=>$data->id])}}>
+                                                    <button class="btn btn-warning btn-xs">Edit</button>        
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @endunless
