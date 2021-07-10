@@ -222,7 +222,7 @@ class GroomingController extends Controller
             'groom_date' => 'required|date_format:Y-m-d',
         ]));
 
-        if ($idgrooming->groomingtype_id != $request->grooming_type && $idgrooming->payment != "free"){
+        if ($idgrooming->groomingtype_id != $request->grooming_type){
             $idgrooming->update([
                 'grooming_at' => $request->groom_date,
                 'cat_id' => $request->cat,
@@ -231,14 +231,14 @@ class GroomingController extends Controller
                 'groomingtype_id' => $request->grooming_type
             ]);
         }
-        else {
-            $idgrooming->update([
-                'grooming_at' => $request->groom_date,
-                'cat_id' => $request->cat,
-                'groomer_id' => $request->groomer,
-                'groomingtype_id' => $request->grooming_type
-            ]);
-        }
+        // else {
+            // $idgrooming->update([
+                // 'grooming_at' => $request->groom_date,
+                // 'cat_id' => $request->cat,
+                // 'groomer_id' => $request->groomer,
+                // 'groomingtype_id' => $request->grooming_type
+            // ]);
+        // }
 
         return back()->with('status_success', 'Grooming Updated!')->withInput();
         // $idgrooming->update();
