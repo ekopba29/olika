@@ -188,7 +188,7 @@ class GroomingController extends Controller
             "cats" => $user->cats,
             "freeGrooming" => $user->freeGrooming->total ?? 0,
             "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
-            "groomingType" => GroomingType::orderBy('grooming_name','desc')->get()
+            "groomingType" => GroomingType::orderBy()->get()
         ]);
     }
 
@@ -199,7 +199,7 @@ class GroomingController extends Controller
             "user" => $cat->owner,
             "freeGrooming" => $cat->owner->freeGrooming->total ?? 0,
             "groomers" => User::whereIn("level", ["owner", "crew"])->get(),
-            "groomingType" => GroomingType::orderBy('grooming_name','desc')->get()
+            "groomingType" => GroomingType::get()
         ]);
     }
 
@@ -225,6 +225,7 @@ class GroomingController extends Controller
         $idgrooming->update([
             'grooming_at' => $request->groom_date,
             'cat_id' => $request->cat,
+            'payment_price' => GroomingType::where('id', $request->grooming_type)->first()->price,
             'groomer_id' => $request->groomer,
             'groomingtype_id' => $request->grooming_type
         ]);
