@@ -14,7 +14,7 @@ class GroomingTypesController extends Controller
      */
     public function index()
     {
-        return view('listGroomingType', ['types' => GroomingType::paginate(5)]);
+        return view('listGroomingType', ['types' => GroomingType::orderBy('grooming_name','desc')->paginate(5)]);
     }
 
     /**
