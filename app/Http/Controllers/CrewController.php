@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\FreeGrooming;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CrewController extends Controller
 {
@@ -27,6 +29,25 @@ class CrewController extends Controller
         return view("listCrew", [
             "users" => $user->listUser(["owner", "crew"], $search, "crew")
         ]);
+    }
+
+    public function editPassword()
+    {
+        return view('formEditPassword');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+            'password_confrim' => 'same:password'
+        ]);
+
+        $updateUser = User::where('id',Auth::user()->id)->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('status_success', 'Password Updated');
     }
 
     public function create()
@@ -120,5 +141,20 @@ class CrewController extends Controller
 
 
         return $request->validate($toValidate);
+    }
+
+    public function resetPassword(User $crew)
+    {
+        if(Auth::user()->level == "owner") {
+            $updateUser = $crew->update([
+                'password' => Hash::make('password')
+            ]);
+    
+            return back()->with('status_success', 'Password Resetted');
+        }
+        else {
+            abort(403);
+        }
+
     }
 }

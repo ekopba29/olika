@@ -63,7 +63,7 @@
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item text-navy">
-                       <a class="nav-link">
+                       <a class="nav-link" href={{route('crew.editPassword')}}>
                            {{ ucfirst(Auth::user()->name) }}
                         </a>
                     </li> 

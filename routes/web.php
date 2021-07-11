@@ -39,6 +39,9 @@ Route::middleware(['auth','crew'])->group(function () {
 
     Route::get('/crew/search', [CrewController::class, 'search'])->name('crew.search');
     // Route::get('/crew/upgrade_to_member/{user}', [CrewController::class, 'upgradeToMember'])->name('crew.upgradeToMember');
+    Route::get('/crew/edit_password', [CrewController::class,'editPassword'])->name('crew.editPassword');
+    Route::get('/crew/reset_password/{crew}', [CrewController::class,'resetPassword'])->name('crew.resetPassword');
+    Route::put('/crew/update_password', [CrewController::class,'updatePassword'])->name('crew.updatePassword');
     Route::resource('/crew', CrewController::class);
 
     Route::get('/cat/create_for/{user}', [CatController::class, 'createFor'])->name('cat.createFor');

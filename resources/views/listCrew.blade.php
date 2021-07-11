@@ -67,6 +67,10 @@
                                                         Add Cat</a>
                                                     <a href="{{ route('crew.edit', ['crew' => $user->id]) }}"
                                                         class="dropdown-item"> Update Profile</a>
+
+                                                    @if (Auth::user()->level == "owner")
+                                                        <a href={{route('crew.resetPassword',["crew" => $user->id])}}  class="dropdown-item"> Reset Password </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>
