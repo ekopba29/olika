@@ -120,13 +120,10 @@ class GroomingController extends Controller
                     Grooming::where('id', $groomingDt->id)->update(['freegrooming_boarding_id' => $boarding->id]);
                     // dd($boarding->id);
                 } else {
-                    $getGroupGrooming = Grooming::where(
-                        [
-                            'accumulated_free_grooming' => "y",
-                            'freegrooming_used' => "n",
-                            'owner_id' => $OwnerId
-                        ]
-                    )->where('payment', '!=', 'free')->take($minimumFreeGrooming)->first();
+                    $getGroupGrooming = Grooming::where('accumulated_free_grooming', 'y')
+                    ->where('freegrooming_used', 'n')
+                    ->where('owner_id', $OwnerId)
+                    ->where('payment', '!=', 'free')->take($minimumFreeGrooming)->first();
                     if (!isset($getGroupGrooming->freegrooming_group)) {
                         // data grooming tidak memenuhi kalkulasi minimal grooming
                         throw new \Exception('Free Grooming Not Accepted');
