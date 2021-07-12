@@ -51,7 +51,7 @@ class GroomingController extends Controller
             ]);
 
             $levelOwner = User::where("id", $OwnerId)->first()->level;
-            // if ($levelOwner != "notmember") {
+            // if ($levelOwner != "notmember") { 
             in_array($request->payment, ["free"]) ?
                 $this->recalculateFreeGrooming($OwnerId, 'decrease', $create)
                 :
