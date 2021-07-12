@@ -124,8 +124,6 @@ class GroomingController extends Controller
                     ->where('freegrooming_used', 'n')
                     ->where('owner_id', $OwnerId)
                     ->where('payment', '!=', 'free')->take($minimumFreeGrooming)->first();
-
-                    dd($getGroupGrooming);
                     if (!isset($getGroupGrooming->freegrooming_group)) {
                         // data grooming tidak memenuhi kalkulasi minimal grooming
                         throw new \Exception('Free Grooming Not Accepted');
