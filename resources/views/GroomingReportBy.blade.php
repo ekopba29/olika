@@ -239,7 +239,7 @@
                                 <th>Owner</th>
                                 <th>Cat Name</th>
                                 <th>Groomer</th>
-                                <th>Groome Type</th>
+                                <th>Grooming Type</th>
                                 <th>Payment</th>
                                 <th>Grooming Date</th>
                                 <th>Accumulated Free</th>
@@ -264,7 +264,7 @@
                                         <td>{{$data->accumulated_free_grooming}}</td>
                                         @if (Auth::user()->level == "owner")
                                             <td>
-                                                @if ($data->accumulated_free_grooming != "y")
+                                                @if ($data->accumulated_free_grooming != "y" && $data->payment != 'free')
                                                 <a route={{route('grooming.delete',['idgrooming'=>$data->id])}} owner="{{ucfirst($data->owner->name)}}" cat="{{$data->cat->name}}" accumulated="{{$data->accumulated_free_grooming}}" onclick="confrimDelete(this)">
                                                     <button class="btn btn-danger btn-xs">Delete</button>        
                                                 </a>
