@@ -123,7 +123,7 @@ class GroomingController extends Controller
                     $getGroupGrooming = Grooming::where('accumulated_free_grooming', 'y')
                     ->where('freegrooming_used', 'n')
                     ->where('owner_id', $OwnerId)
-                    ->where('payment', '!=', 'free')->take($minimumFreeGrooming)->first();
+                    ->where('payment', '!=', 'free')->take($minimumFreeGrooming);
 
                     dd($getGroupGrooming->toSql());
                     if (!isset($getGroupGrooming->freegrooming_group)) {
