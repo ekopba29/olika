@@ -61,7 +61,7 @@ class GroomingController extends Controller
             return back()->with('status_success', 'Grooming Added');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return back()->with('status_error', 'Register Grooming Failed ' . $e->getMessage())->withInput();
         }
     }
