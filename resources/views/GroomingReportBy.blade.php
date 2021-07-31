@@ -244,7 +244,7 @@
                                 <th>Grooming Date</th>
                                 <th>Accumulated Free</th>
                                 @if (Auth::user()->level == "owner")
-                                    <th>Delete</th>
+                                    <th></th>
                                 @endif
                             </tr>
                         </thead>
