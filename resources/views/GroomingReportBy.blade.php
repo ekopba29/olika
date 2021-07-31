@@ -264,7 +264,7 @@
                                         <td>{{$data->accumulated_free_grooming}}</td>
                                         @if (Auth::user()->level == "owner")
                                             <td>
-                                                @if ($data->accumulated_free_grooming != "y" && $data->payment != 'free')
+                                                @if ( ($data->accumulated_free_grooming != "y" && $data->payment != 'free') || in_array($data->owner->level,["owner","crew"]))
                                                 <a route={{route('grooming.delete',['idgrooming'=>$data->id])}} owner="{{ucfirst($data->owner->name)}}" cat="{{$data->cat->name}}" accumulated="{{$data->accumulated_free_grooming}}" onclick="confrimDelete(this)">
                                                     <button class="btn btn-danger btn-xs">Delete</button>        
                                                 </a>
