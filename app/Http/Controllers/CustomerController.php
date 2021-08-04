@@ -100,7 +100,7 @@ class CustomerController extends Controller
 
     public function setFreegroomingManual(Request $request,User $user)
     {
-        if($user->level == "member" && Auth::user()->level == "owner"){
+        if(Auth::user()->level == "owner"){
             FreeGrooming::where("owner_id",$user->id)->update(["total"=>$request->total]);
             return back()->with('status_success', 'FreeGrooming Updated!');
         }

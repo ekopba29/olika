@@ -306,12 +306,14 @@ class GroomingController extends Controller
             // }
         }
 
-        if ($idgrooming->accumulated_free_grooming != "y") {
+
+        if ( ($idgrooming->accumulated_free_grooming != "y" && $idgrooming->payment != "free") || in_array($idgrooming->owner->level,['owner', 'crew'])) {
             $idgrooming->delete();
             return back()->with('status_success', 'Data Grooming Deleted');
         } else {
             return back()->with('status_error_custom', 'Failed Delete');
         }
+        
         // dd($idgrooming);
         // $delete = Grooming::delete($request->segment(2));
         // return back()->with('status_success','Data Grooming Deleted');
