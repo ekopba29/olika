@@ -134,6 +134,11 @@ class GroomingController extends Controller
                 break;
 
             case 'increase':
+                // bukan member tidak usah ditambahkan free grooming
+                if ($groomingDt->owner->level == "notmember") {
+                    return;
+                }
+
                 $getGroomingBeforeAccumulated = Grooming::where(
                     [
                         'accumulated_free_grooming' => "n",
