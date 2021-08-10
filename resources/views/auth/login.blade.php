@@ -63,6 +63,7 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
+                            <a href="{{ route('password.request')}}">Reset</a>
                             {{-- <input type="checkbox" id="remember"> --}}
                             {{-- <label for="remember">Remember Me</label> --}}
                         </div>
